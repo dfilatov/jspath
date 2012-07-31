@@ -1,0 +1,23 @@
+{
+    "name" : "jspath",
+    "version" : "0.0.1",
+    "author" : "Dmitry Filatov <dfilatov@yandex-team.ru>",
+    "contributors" : [{
+        "name"  : "Dmitry Filatov",
+        "email" : "dfilatov@yandex-team.ru"
+    }],
+    "repository" : {
+        "type" : "git",
+        "url"  : "http://github.com/dfilatov/jpath.git"
+    },
+    "dependencies" : {},
+    "devDependencies" : {
+        "pegjs"    : "= 0.7.0",
+        "nodeunit" : "= 0.7.4"
+    },
+    "main" : "index",
+    "engines" : { "node" : ">= 0.4.0" },
+    "scripts" : {
+        "test" : "make test"
+    }
+}
