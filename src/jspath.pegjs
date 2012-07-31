@@ -207,10 +207,19 @@ arrPrevRuleIdx
     }
 
 value
-    = string
+    = boolean
+    / string
     / int
 
-string "string"
+boolean
+    = 'true' {
+        return true;
+    }
+    / 'false' {
+        return false;
+    }
+
+string
     = '"' '"' _ { return ""; }
     / '"' chars:chars '"' _ { return chars; }
 
