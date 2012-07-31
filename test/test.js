@@ -101,6 +101,9 @@ var jpath = require('../src/jspath'),
         { path : '@.books{@.price == 10}.idx', res : [1]},
         { path : '@.books{@.price <= 10}.idx', res : [1]},
         { path : '@.books{@.price >= 10}.idx', res : [0, 1, 2, 3, 4]},
+        { path : '@.books{@.price > 10}{@.price < 20}.idx', res : [0, 3]},
+        { path : '@.books[1..]{@.price > 10}{@.price < 20}.idx', res : [3]},
+        { path : '@.books{@.price > 10}[0].idx', res : [0]},
         { path : '@.books{@.oldPrices > @.price}.idx', res : [1, 4]},
         { path : '@.books{@.oldPrices === @.price}.idx', res : [1]}
     ];
