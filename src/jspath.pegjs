@@ -209,6 +209,7 @@ arrPrevRuleIdx
 value
     = boolean
     / string
+    / float
     / int
 
 boolean
@@ -224,7 +225,7 @@ string
     / '"' chars:chars '"' _ { return chars; }
 
 chars
-    = chars:char+ { return chars.join(""); }
+    = chars:char+ { return chars.join(''); }
 
 char
     = [^"\\\0-\x1F\x7f]
@@ -237,14 +238,17 @@ char
     / "\\r" { return "\r"; }
     / "\\t" { return "\t"; }
     / "\\u" h1:hexDigit h2:hexDigit h3:hexDigit h4:hexDigit {
-        return String.fromCharCode(parseInt("0x" + h1 + h2 + h3 + h4));
+        return String.fromCharCode(parseInt('0x' + h1 + h2 + h3 + h4));
     }
 
 hexDigit
     = [0-9a-fA-F]
 
+float
+    = sign:'-'? int:[0-9]* [.] frac:[0-9]+ { return parseFloat(sign + int.join('') + '.' + frac.join('')); }
+
 int
     = sign:'-'? int:[0-9]+ { return parseInt(sign + int.join(''), 10); }
 
-_ 'whitespace'
-    = [ ]*
+_
+    = [ \t]*
