@@ -58,6 +58,12 @@
         '<'  : function(val1, val2) {
             return val1 < val2;
         },
+        '!==' : function(val1, val2) {
+            return val1 !== val2;
+        },
+        '!=' : function(val1, val2) {
+            return val1 != val2;
+        },
         '^=' : function(val1, val2) {
             return val1.toString().indexOf(val2) === 0;
         },
@@ -191,6 +197,8 @@ binaryOp
     / '>'
     / '<='
     / '<'
+    / '!=='
+    / '!='
     / '^='
     / '$='
 
