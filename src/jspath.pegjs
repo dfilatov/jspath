@@ -78,18 +78,33 @@
                 }) :
                 opFn(val1, val2);
     }
+
+    function findDescendants(ctx, prop) {
+        var res = [], ctxs = [ctx], curCtx, childCtxs;
+
+        while(ctxs.length) {
+            (curCtx = ctxs.shift()).hasOwnProperty(prop) && res.push(curCtx[prop]);
+            childCtxs = [];
+            Object.keys(curCtx).forEach(function(key) {
+                typeof curCtx[key] === 'object' && childCtxs.push(curCtx[key]);
+            });
+            childCtxs.length && (ctxs = childCtxs.concat(ctxs));
+        }
+
+        return res;
+    }
 }
 
 start
     = path
 
 path
-    = '@' parts:([.]part)+ {
+    = '@' parts:(part)+ {
         return function(ctx) {
             return applyPathFns(
                 ctx,
                 parts.map(function(part) {
-                    return part[1];
+                    return part;
                 }));
         }
     }
@@ -100,11 +115,24 @@ path
     }
 
 part
-    = prop:prop pred:pred* {
+    = selector:selector pred:pred* {
         return function(ctx) {
-            return pred.length? applyPredFns(ctx[prop], pred) : ctx[prop];
+            return pred.length? applyPredFns(selector(ctx), pred) : selector(ctx);
         };
     }
+
+selector
+    = [.] [.] prop:prop {
+        return function(ctx) {
+            return findDescendants(ctx, prop);
+        }
+    }
+    / [.] prop:prop {
+        return function(ctx) {
+            return ctx[prop];
+        }
+    }
+
 
 prop
     = prop:[-_a-z0-9/]i+ {

@@ -106,7 +106,19 @@ var jpath = require('../src/jspath'),
         { path : '@.books[1..]{@.price > 10}{@.price < 20}.idx', res : [3]},
         { path : '@.books{@.price > 10}[0].idx', res : [0]},
         { path : '@.books{@.oldPrices > @.price}.idx', res : [1, 4]},
-        { path : '@.books{@.oldPrices === @.price}.idx', res : [1]}
+        { path : '@.books{@.oldPrices === @.price}.idx', res : [1]},
+        { path : '@..name', res : [
+            'books and authors', 'Clean Code', 'Robert C. Martin', 'Maintainable JavaScript',
+            'Nicholas C. Zakas', 'Agile Software Development', 'Robert C. Martin', 'JavaScript: The Good Parts',
+            'Douglas Crockford', 'JavaScript: The Good Parts', 'Douglas Crockford', 'Nicholas C. Zakas',
+            'Douglas Crockford', 'Robert C. Martin', 'John Resig'
+            ]},
+        { path : '@.books{@..name{@ === "Douglas Crockford"}}.idx', res : [3, 4]},
+        { path : '@..object', data : { object : { object : { object : 'object' }}}, res : [
+                { object : { object : 'object' }},
+                { object : 'object' },
+                'object'
+            ]}
     ];
 
 tests.forEach(function(testItem, i) {
