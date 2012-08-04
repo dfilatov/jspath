@@ -165,35 +165,58 @@ pred
     / arrPred
 
 objPred
-    = '{' _ objPredRule:objPredRule _ '}' {
+    = '{' _ expr:expr _ '}' {
         return function(ctx) {
             return isArray(ctx)?
                 ctx.filter(function(item) {
-                    return objPredRule(item);
+                    return expr(item);
                 }) :
-                objPredRule(ctx)? ctx : undefined;
+                expr(ctx)? ctx : undefined;
         }
     }
 
-objPredRule
-    = objPredRuleBinary
-    / objPredHasProperty
+expr
+    = operators
+    / logical
+    / exprTerm
 
-objPredRuleBinary
-    = left:exp _ binaryOp:binaryOp _ right:exp {
-        return function(ctx) {
-            return applyBinaryOp(left(ctx), right(ctx), binaryOp);
-        }
-    }
-
-objPredHasProperty
+exprTerm
     = path:path {
-        return function(ctx) {
-            return !!path(ctx).length;
+        return function(ctx, asValue) {
+            return asValue? path(ctx) : !!path(ctx).length;
+        }
+    }
+    / value:value {
+        return function() {
+            return value;
         }
     }
 
-binaryOp
+logical
+    = expr1:exprTerm _ '&&' _ expr2:expr {
+        return function(ctx) {
+            return expr1(ctx) && expr2(ctx);
+        }
+    }
+    / expr1:exprTerm _ '||' _ expr2:expr {
+        return function(ctx) {
+            return expr1(ctx) || expr2(ctx);
+        }
+    }
+    / '!' _ expr:expr {
+        return function(ctx) {
+            return !expr(ctx);
+        }
+    }
+
+operators
+    = left:exprTerm _ binaryOperator:binaryOperator _ right:expr {
+        return function(ctx) {
+            return applyBinaryOp(left(ctx, true), right(ctx, true), binaryOperator);
+        }
+    }
+
+binaryOperator
     = '==='
     / '=='
     / '>='
@@ -205,14 +228,6 @@ binaryOp
     / '^='
     / '$='
     / '*='
-
-exp
-    = path
-    / value:value {
-        return function() {
-            return value;
-        }
-    }
 
 arrPred
     = '[' _ arrPredRule:arrPredRule _ ']' {
