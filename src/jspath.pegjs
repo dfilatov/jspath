@@ -72,6 +72,9 @@
                 val2Str = val2.toString();
 
             return val1Str.indexOf(val2Str, val1Str.length - val2Str.length) > -1;
+        },
+        '*=' : function(val1, val2) {
+            return val1.toString().indexOf(val2.toString()) > -1;
         }
     }
 
@@ -201,6 +204,7 @@ binaryOp
     / '!='
     / '^='
     / '$='
+    / '*='
 
 exp
     = path
