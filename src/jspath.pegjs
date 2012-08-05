@@ -176,41 +176,62 @@ objPred
     }
 
 expr
-    = operators
-    / logical
-    / exprTerm
+    = logicalExpr
+    / notLogicalExpr
 
-exprTerm
-    = path:path {
-        return function(ctx, asValue) {
-            return asValue? path(ctx) : !!path(ctx).length;
-        }
-    }
-    / value:value {
-        return function() {
-            return value;
-        }
-    }
+logicalExpr
+    = head:notLogicalExpr _  tail:('&&' _ notLogicalExpr)+ {
+        return function(ctx) {
+            if(!head(ctx)) {
+                return false;
+            }
 
-logical
-    = expr1:exprTerm _ '&&' _ expr2:expr {
-        return function(ctx) {
-            return expr1(ctx) && expr2(ctx);
+            var i = 0, len = tail.length;
+            while(i < len) {
+                if(!tail[i++][2](ctx)) {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
-    / expr1:exprTerm _ '||' _ expr2:expr {
+    / head:notLogicalExpr _  tail:('||' _ notLogicalExpr)+ {
         return function(ctx) {
-            return expr1(ctx) || expr2(ctx);
+            if(head(ctx)) {
+                return true;
+            }
+
+            var i = 0, len = tail.length;
+            while(i < len) {
+                if(tail[i++][2](ctx)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
-    / '!' _ expr:expr {
+    / '!' _ expr:notLogicalExpr {
         return function(ctx) {
             return !expr(ctx);
         }
     }
 
-operators
-    = left:exprTerm _ binaryOperator:binaryOperator _ right:expr {
+notLogicalExpr
+    = operatorExpr
+    / termExpr
+
+termExpr
+    = path:path {
+        return function(ctx, asValue) {
+            return asValue? path(ctx) : !!path(ctx).length;
+        }
+    }
+    / value:value
+
+operatorExpr
+    = left:termExpr _ binaryOperator:binaryOperator _ right:termExpr {
         return function(ctx) {
             return applyBinaryOp(left(ctx, true), right(ctx, true), binaryOperator);
         }
@@ -273,10 +294,11 @@ arrPrevRuleIdx
     }
 
 value
-    = boolean
-    / string
-    / float
-    / int
+    = value:(boolean / string / float / int) {
+        return function() {
+            return value;
+        }
+    }
 
 boolean
     = 'true' {
