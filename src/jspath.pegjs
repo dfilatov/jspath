@@ -185,7 +185,7 @@ logicalExpr
     / LogicalNOTExpr
 
 LogicalANDExpr
-    = head:(notLogicalExpr / LogicalORExpr / LogicalNOTExpr)  _  tail:('&&' _ (notLogicalExpr / LogicalORExpr / LogicalNOTExpr))+ {
+    = head:(notLogicalExpr / LogicalNOTExpr)  _  tail:('&&' _ expr)+ {
         return function(ctx) {
             if(!head(ctx)) {
                 return false;
@@ -203,7 +203,7 @@ LogicalANDExpr
     }
 
 LogicalORExpr
-    = head:(notLogicalExpr / LogicalNOTExpr)  _  tail:('||' _ (notLogicalExpr / LogicalNOTExpr))+ {
+    = head:(notLogicalExpr / LogicalNOTExpr)  _  tail:('||' _ expr)+ {
         return function(ctx) {
             if(head(ctx)) {
                 return true;
