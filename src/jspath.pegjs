@@ -219,8 +219,14 @@ logicalExpr
     }
 
 notLogicalExpr
-    = operatorExpr
+    = bracketsExpr
+    / operatorExpr
     / termExpr
+
+bracketsExpr
+    = '(' _ expr:expr _ ')' {
+        return expr;
+    }
 
 termExpr
     = path:path {
