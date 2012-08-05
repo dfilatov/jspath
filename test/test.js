@@ -138,11 +138,16 @@ var jpath = require('../src/jspath'),
             'Douglas Crockford', 'Robert C. Martin', 'John Resig'
             ]},
         { path : '@.books[@..name[@ === "Douglas Crockford"]].idx', res : [3, 4]},
-        { path : '@..object', data : { object : { object : { object : 'object' }}}, res : [
-                { object : { object : 'object' }},
+        {
+            path : '@..object',
+            data : { object : { object : { object : 'object' }, arr : [[{ object : 'arr-object' }]]}},
+            res : [
+                { object : { object : 'object' }, arr : [[{ object : 'arr-object' }]]},
                 { object : 'object' },
-                'object'
-            ]}
+                'object',
+                'arr-object'
+            ]
+        }
     ];
 
 tests.forEach(function(testItem, i) {

@@ -99,17 +99,38 @@
 
     function findDescendants(ctx, prop) {
         var res = [], ctxs = [ctx], curCtx, childCtxs;
-
         while(ctxs.length) {
-            (curCtx = ctxs.shift()).hasOwnProperty(prop) && res.push(curCtx[prop]);
-            childCtxs = [];
-            Object.keys(curCtx).forEach(function(key) {
-                typeof curCtx[key] === 'object' && childCtxs.push(curCtx[key]);
-            });
-            childCtxs.length && (ctxs = childCtxs.concat(ctxs));
+            curCtx = ctxs.shift();
+            if(typeof(curCtx) !== 'object') {
+                continue;
+            }
+
+            curCtx.hasOwnProperty(prop) && res.push(curCtx[prop]);
+            childCtxs = null;
+            isArray(curCtx)?
+                curCtx.forEach(function(ctx) {
+                    childCtxs = appendObjectToArray(childCtxs, ctx);
+                }) :
+                Object.keys(curCtx).forEach(function(key) {
+                    childCtxs = appendObjectToArray(childCtxs, curCtx[key]);
+                });
+            childCtxs && (ctxs = childCtxs.concat(ctxs));
         }
 
         return res;
+    }
+
+    function appendObjectToArray(arr, val) {
+        if(typeof val !== 'object') {
+            return arr;
+        }
+
+        if(isArray(val)) {
+            return arr? arr.concat(val) : val.slice();
+        }
+
+        (arr || (arr = [])).push(val);
+        return arr;
     }
 }
 
