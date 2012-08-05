@@ -1,5 +1,6 @@
 {
-    var isArray = Array.isArray;
+    var undef,
+        isArray = Array.isArray;
 
     function makeArray(ctx) {
         return isArray(ctx)? ctx.slice() : [ctx];
@@ -13,7 +14,7 @@
             ctxLen = res.length;
             while(j < ctxLen) {
                 fnRes = fn(res[j++]);
-                if(Array.isArray(fnRes)) {
+                if(isArray(fnRes)) {
                     res = res.concat(fnRes);
                 }
                 else if(typeof fnRes !== 'undefined') {
@@ -106,7 +107,7 @@
             }
 
             curCtx.hasOwnProperty(prop) && res.push(curCtx[prop]);
-            childCtxs = null;
+            childCtxs = undef;
             isArray(curCtx)?
                 curCtx.forEach(function(ctx) {
                     childCtxs = appendObjectToArray(childCtxs, ctx);
@@ -140,11 +141,7 @@ start
 path
     = '@' parts:(part)+ {
         return function(ctx) {
-            return applyPathFns(
-                ctx,
-                parts.map(function(part) {
-                    return part;
-                }));
+            return applyPathFns(ctx, parts);
         }
     }
     / '@' {
@@ -193,7 +190,7 @@ objPred
                 ctx.filter(function(item) {
                     return expr(item);
                 }) :
-                expr(ctx)? ctx : undefined;
+                expr(ctx)? ctx : undef;
         }
     }
 
@@ -290,9 +287,9 @@ binaryOperator
 arrPred
     = arrPred:(arrPredBetween / arrPredLess / arrPredMore / arrPredIdx) {
         return function(ctx) {
-            return Array.isArray(ctx)?
+            return isArray(ctx)?
                 arrPred(ctx) :
-                undefined;
+                undef;
         }
     }
 
@@ -340,23 +337,24 @@ boolean
     }
 
 string
-    = '"' '"' _ { return ""; }
-    / '"' chars:chars '"' _ { return chars; }
-
-chars
-    = chars:char+ { return chars.join(''); }
+    = '""' {
+        return '';
+    }
+    / '"' chars:char+ '"' {
+        return chars.join('');
+    }
 
 char
     = [^"\\\0-\x1F\x7f]
     / '\\"' { return '"'; }
-    / "\\\\" { return "\\"; }
-    / "\\/" { return "/"; }
-    / "\\b" { return "\b"; }
-    / "\\f" { return "\f"; }
-    / "\\n" { return "\n"; }
-    / "\\r" { return "\r"; }
-    / "\\t" { return "\t"; }
-    / "\\u" h1:hexDigit h2:hexDigit h3:hexDigit h4:hexDigit {
+    / '\\\\' { return '\\'; }
+    / '\\/' { return '/'; }
+    / '\\b' { return '\b'; }
+    / '\\f' { return '\f'; }
+    / '\\n' { return '\n'; }
+    / '\\r' { return '\r'; }
+    / '\\t' { return '\t'; }
+    / '\\u' h1:hexDigit h2:hexDigit h3:hexDigit h4:hexDigit {
         return String.fromCharCode(parseInt('0x' + h1 + h2 + h3 + h4));
     }
 
@@ -364,9 +362,13 @@ hexDigit
     = [0-9a-fA-F]
 
 float
-    = sign:'-'? int:[0-9]* [.] frac:[0-9]+ { return parseFloat(sign + int.join('') + '.' + frac.join('')); }
+    = sign:'-'? int:[0-9]* [.] frac:[0-9]+ {
+        return parseFloat(sign + int.join('') + '.' + frac.join(''));
+    }
 
 int
-    = sign:'-'? int:[0-9]+ { return parseInt(sign + int.join(''), 10); }
+    = sign:'-'? int:[0-9]+ {
+        return parseInt(sign + int.join(''), 10);
+    }
 _
     = [ \t]*
