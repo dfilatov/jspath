@@ -180,7 +180,12 @@ expr
     / notLogicalExpr
 
 logicalExpr
-    = head:notLogicalExpr _  tail:('&&' _ notLogicalExpr)+ {
+    = LogicalANDExpr
+    / LogicalORExpr
+    / LogicalNOTExpr
+
+LogicalANDExpr
+    = head:(notLogicalExpr / LogicalORExpr / LogicalNOTExpr)  _  tail:('&&' _ (notLogicalExpr / LogicalORExpr / LogicalNOTExpr))+ {
         return function(ctx) {
             if(!head(ctx)) {
                 return false;
@@ -196,7 +201,9 @@ logicalExpr
             return true;
         }
     }
-    / head:notLogicalExpr _  tail:('||' _ notLogicalExpr)+ {
+
+LogicalORExpr
+    = head:(notLogicalExpr / LogicalNOTExpr)  _  tail:('||' _ (notLogicalExpr / LogicalNOTExpr))+ {
         return function(ctx) {
             if(head(ctx)) {
                 return true;
@@ -212,7 +219,9 @@ logicalExpr
             return false;
         }
     }
-    / '!' _ expr:notLogicalExpr {
+
+LogicalNOTExpr
+    = '!' _ expr:notLogicalExpr {
         return function(ctx) {
             return !expr(ctx);
         }
