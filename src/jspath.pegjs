@@ -161,11 +161,12 @@ prop
     }
 
 pred
-    = objPred
-    / arrPred
+    = '[' _ pred:(arrPred / objPred) _ ']' {
+        return pred;
+    }
 
 objPred
-    = '{' _ expr:expr _ '}' {
+    = expr:expr {
         return function(ctx) {
             return isArray(ctx)?
                 ctx.filter(function(item) {
@@ -266,42 +267,36 @@ binaryOperator
     / '*='
 
 arrPred
-    = '[' _ arrPredRule:arrPredRule _ ']' {
+    = arrPred:(arrPredBetween / arrPredLess / arrPredMore / arrPredIdx) {
         return function(ctx) {
             return Array.isArray(ctx)?
-                arrPredRule(ctx) :
+                arrPred(ctx) :
                 undefined;
         }
     }
 
-arrPredRule
-    = arrPredRuleBetween
-    / arrPredRuleLess
-    / arrPredRuleMore
-    / arrPrevRuleIdx
-
-arrPredRuleBetween
+arrPredBetween
     = idxFrom:int '..' idxTo:int {
         return function(ctx) {
             return ctx.slice(idxFrom, idxTo);
         }
     }
 
-arrPredRuleLess
+arrPredLess
     = '..' idx:int {
         return function(ctx) {
             return ctx.slice(0, idx);
         }
     }
 
-arrPredRuleMore
+arrPredMore
     = idx:int '..' {
         return function(ctx) {
             return ctx.slice(idx);
         }
     }
 
-arrPrevRuleIdx
+arrPredIdx
     = idx:int {
         return function(ctx) {
             return idx >= 0? ctx[idx] : ctx[ctx.length + idx];
@@ -352,6 +347,5 @@ float
 
 int
     = sign:'-'? int:[0-9]+ { return parseInt(sign + int.join(''), 10); }
-
 _
     = [ \t]*
