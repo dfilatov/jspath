@@ -1,4 +1,4 @@
-var jpath = require('../src/jspath'),
+var jpath = require('../index'),
     testData = {
         name : 'books and authors',
         info : {

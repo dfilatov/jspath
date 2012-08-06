@@ -8,7 +8,7 @@
     }],
     "repository" : {
         "type" : "git",
-        "url"  : "http://github.com/dfilatov/jpath.git"
+        "url"  : "http://github.com/dfilatov/jspath.git"
     },
     "dependencies" : {},
     "devDependencies" : {

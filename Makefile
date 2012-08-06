@@ -1,7 +1,7 @@
 parser:
-	./node_modules/.bin/pegjs src/jpath.pegjs src/parser.js
+	./node_modules/.bin/pegjs src/jspath.pegjs lib/parser.js
 
-test:
+test: parser
 	./node_modules/.bin/nodeunit test
 
 .PHONY: parser test
