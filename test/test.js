@@ -6,7 +6,8 @@ var jpath = require('../index'),
             'object-predicates',
             'array-predicates',
             'multi-predicates',
-            'operators',
+            'comparison-operators',
+            'arithmetic-operators',
             'logical-expressions'
         ].reduce(
             function(tests, name) {

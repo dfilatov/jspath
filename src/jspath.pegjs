@@ -40,7 +40,7 @@
         return res;
     }
 
-    var binaryOps = {
+    var comparisonOperators = {
         '===' : function(val1, val2) {
             return val1 === val2;
         },
@@ -77,25 +77,49 @@
         '*=' : function(val1, val2) {
             return val1.toString().indexOf(val2.toString()) > -1;
         }
-    }
+    };
 
-    function applyBinaryOp(val1, val2, op) {
-        var opFn = binaryOps[op];
+    function applyComparisonOperator(val1, val2, operator) {
+        var operatorFn = comparisonOperators[operator];
         return isArray(val1)?
             isArray(val2)?
                 val1.some(function(val1) {
                     return val2.some(function(val2) {
-                        return opFn(val1, val2);
+                        return operatorFn(val1, val2);
                     });
                 }) :
                 val1.some(function(val1) {
-                    return opFn(val1, val2);
+                    return operatorFn(val1, val2);
                 }) :
             isArray(val2)?
                 val2.some(function(val2) {
-                    return opFn(val1, val2);
+                    return operatorFn(val1, val2);
                 }) :
-                opFn(val1, val2);
+                operatorFn(val1, val2);
+    }
+
+    var arithmeticOperators = {
+        '+' : function(val1, val2) {
+            return val1 + val2;
+        },
+        '-' : function(val1, val2) {
+            return val1 - val2;
+        },
+        '*' : function(val1, val2) {
+            return val1 * val2;
+        },
+        '/' : function(val1, val2) {
+            return val1 / val2;
+        },
+        '%' : function(val1, val2) {
+            return val1 % val2;
+        }
+    };
+
+    function applyArithmeticOperator(val1, val2, operator) {
+        return arithmeticOperators[operator](
+            isArray(val1)? val1[0] : val1,
+            isArray(val2)? val2[0] : val2);
     }
 
     function findDescendants(ctx, prop) {
@@ -158,12 +182,12 @@ part
     }
 
 selector
-    = [.] [.] prop:prop {
+    = '..' prop:prop {
         return function(ctx) {
             return findDescendants(ctx, prop);
         }
     }
-    / [.] prop:prop {
+    / '.' prop:prop {
         return function(ctx) {
             return ctx[prop];
         }
@@ -171,15 +195,18 @@ selector
 
 
 prop
-    = prop:[-_a-z0-9/]i+ {
+    = prop:[-_a-z0-9:/]i+ {
         return prop.join('');
     }
-    / '"' prop:[-_a-z0-9/.]i+ '"' {
+    / '"' prop:[-_a-z0-9:/.]i+ '"' {
         return prop.join('');
     }
 
 pred
     = '[' _ pred:(arrPred / objPred) _ ']' {
+        return pred;
+    }
+    / '[' _ pred:objPred _ ']' {
         return pred;
     }
 
@@ -199,12 +226,12 @@ expr
     / notLogicalExpr
 
 logicalExpr
-    = LogicalANDExpr
-    / LogicalORExpr
-    / LogicalNOTExpr
+    = logicalANDExpr
+    / logicalORExpr
+    / logicalNOTExpr
 
-LogicalANDExpr
-    = head:(notLogicalExpr / LogicalNOTExpr)  _  tail:('&&' _ expr)+ {
+logicalANDExpr
+    = head:(notLogicalExpr / logicalNOTExpr) _ tail:('&&' _ expr)+ {
         return function(ctx) {
             if(!head(ctx)) {
                 return false;
@@ -221,8 +248,8 @@ LogicalANDExpr
         }
     }
 
-LogicalORExpr
-    = head:(notLogicalExpr / LogicalNOTExpr)  _  tail:('||' _ expr)+ {
+logicalORExpr
+    = head:(notLogicalExpr / logicalNOTExpr) _ tail:('||' _ expr)+ {
         return function(ctx) {
             if(head(ctx)) {
                 return true;
@@ -239,7 +266,7 @@ LogicalORExpr
         }
     }
 
-LogicalNOTExpr
+logicalNOTExpr
     = '!' _ expr:notLogicalExpr {
         return function(ctx) {
             return !expr(ctx);
@@ -247,42 +274,64 @@ LogicalNOTExpr
     }
 
 notLogicalExpr
-    = bracketsExpr
+    = bracketedExpr
     / operatorExpr
     / termExpr
 
-bracketsExpr
+bracketedExpr
     = '(' _ expr:expr _ ')' {
         return expr;
     }
 
+operatorExpr
+    = comparisonExpr
+    / arithmeticExpr
+
+comparisonExpr
+    = left:(arithmeticExpr / termExpr) _ comparisonOperator:comparisonOperator _ right:(arithmeticExpr / termExpr) {
+        return function(ctx) {
+            return comparisonOperator(left(ctx, true), right(ctx, true));
+        }
+    }
+
+comparisonOperator
+    = operator: ('===' / '==' / '>=' / '>' / '<=' / '<' / '!==' / '!=' / '^=' / '$=' / '*=') {
+        return function(left, right) {
+            return applyComparisonOperator(left, right, operator);
+        }
+    }
+
+arithmeticExpr
+    = left:termExpr _ arithmeticOperator:arithmeticOperator _ right:termExpr {
+        return function(ctx) {
+            return arithmeticOperator(left(ctx, true), right(ctx, true));
+        }
+    }
+
+arithmeticOperator
+    = operator:('+' / '-' / '*' / '/' / '%') {
+        return function(left, right) {
+            return applyArithmeticOperator(left, right, operator);
+        }
+    }
+
 termExpr
+    = pathExpr
+    / valueExpr
+
+pathExpr
     = path:path {
         return function(ctx, asValue) {
             return asValue? path(ctx) : !!path(ctx).length;
         }
     }
-    / value:value
 
-operatorExpr
-    = left:termExpr _ binaryOperator:binaryOperator _ right:termExpr {
-        return function(ctx) {
-            return applyBinaryOp(left(ctx, true), right(ctx, true), binaryOperator);
+valueExpr
+    = value:value {
+        return function() {
+            return value;
         }
     }
-
-binaryOperator
-    = '==='
-    / '=='
-    / '>='
-    / '>'
-    / '<='
-    / '<'
-    / '!=='
-    / '!='
-    / '^='
-    / '$='
-    / '*='
 
 arrPred
     = arrPred:(arrPredBetween / arrPredLess / arrPredMore / arrPredIdx) {
@@ -322,11 +371,7 @@ arrPredIdx
     }
 
 value
-    = value:(boolean / string / float / int) {
-        return function() {
-            return value;
-        }
-    }
+    = boolean / string / float / int
 
 boolean
     = 'true' {
