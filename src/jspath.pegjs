@@ -288,7 +288,7 @@ operatorExpr
     / arithmeticExpr
 
 comparisonExpr
-    = left:(arithmeticExpr / termExpr) _ comparisonOperator:comparisonOperator _ right:(arithmeticExpr / termExpr) {
+    = left:arithmeticExpr _ comparisonOperator:comparisonOperator _ right:arithmeticExpr {
         return function(ctx) {
             return comparisonOperator(left(ctx, true), right(ctx, true));
         }
@@ -302,14 +302,39 @@ comparisonOperator
     }
 
 arithmeticExpr
-    = left:termExpr _ arithmeticOperator:arithmeticOperator _ right:termExpr {
+    = additiveExpr
+    / multiplicativeExpr
+
+additiveExpr
+    = left:multiplicativeExpr _ additiveOperator:additiveOperator _ right:arithmeticExpr {
         return function(ctx) {
-            return arithmeticOperator(left(ctx, true), right(ctx, true));
+            return additiveOperator(left(ctx, true), right(ctx, true));
         }
     }
 
-arithmeticOperator
-    = operator:('+' / '-' / '*' / '/' / '%') {
+multiplicativeExpr
+    = left:primaryArithmeticExpr _ multiplicativeOperator:multiplicativeOperator _ right:multiplicativeExpr {
+        return function(ctx) {
+            return multiplicativeOperator(left(ctx, true), right(ctx, true));
+        }
+    }
+    / primaryArithmeticExpr
+
+primaryArithmeticExpr
+    = termExpr
+    / '(' _ arithmeticExpr:arithmeticExpr _ ')' {
+        return arithmeticExpr;
+    }
+
+additiveOperator
+    = operator:('+' / '-') {
+        return function(left, right) {
+            return applyArithmeticOperator(left, right, operator);
+        }
+    }
+
+multiplicativeOperator
+    = operator:('*' / '/' / '%') {
         return function(left, right) {
             return applyArithmeticOperator(left, right, operator);
         }
