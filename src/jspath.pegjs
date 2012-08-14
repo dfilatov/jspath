@@ -211,9 +211,6 @@ pred
     = '[' _ pred:(arrPred / objPred) _ ']' {
         return pred;
     }
-    / '[' _ pred:objPred _ ']' {
-        return pred;
-    }
 
 objPred
     = expr:expr {
@@ -295,16 +292,22 @@ operatorExpr
 comparisonExpr
     = left:arithmeticExpr _ comparisonOperator:comparisonOperator _ right:arithmeticExpr {
         return function(ctx) {
-            return comparisonOperator(left(ctx, true), right(ctx, true));
+            return applyComparisonOperator(left(ctx, true), right(ctx, true), comparisonOperator);
         }
     }
 
 comparisonOperator
-    = operator: ('===' / '==' / '>=' / '>' / '<=' / '<' / '!==' / '!=' / '^=' / '$=' / '*=') {
-        return function(left, right) {
-            return applyComparisonOperator(left, right, operator);
-        }
-    }
+    = '==='
+    / '=='
+    / '>='
+    / '>'
+    / '<='
+    / '<'
+    / '!=='
+    / '!='
+    / '^='
+    / '$='
+    / '*='
 
 arithmeticExpr
     = additiveExpr
@@ -313,14 +316,14 @@ arithmeticExpr
 additiveExpr
     = left:multiplicativeExpr _ additiveOperator:additiveOperator _ right:arithmeticExpr {
         return function(ctx) {
-            return additiveOperator(left(ctx, true), right(ctx, true));
+            return applyArithmeticOperator(left(ctx, true), right(ctx, true), additiveOperator);
         }
     }
 
 multiplicativeExpr
     = left:primaryArithmeticExpr _ multiplicativeOperator:multiplicativeOperator _ right:multiplicativeExpr {
         return function(ctx) {
-            return multiplicativeOperator(left(ctx, true), right(ctx, true));
+            return applyArithmeticOperator(left(ctx, true), right(ctx, true), multiplicativeOperator);
         }
     }
     / primaryArithmeticExpr
@@ -332,18 +335,13 @@ primaryArithmeticExpr
     }
 
 additiveOperator
-    = operator:('+' / '-') {
-        return function(left, right) {
-            return applyArithmeticOperator(left, right, operator);
-        }
-    }
+    = '+'
+    / '-'
 
 multiplicativeOperator
-    = operator:('*' / '/' / '%') {
-        return function(left, right) {
-            return applyArithmeticOperator(left, right, operator);
-        }
-    }
+    = '*'
+    / '/'
+    / '%'
 
 termExpr
     = pathExpr
