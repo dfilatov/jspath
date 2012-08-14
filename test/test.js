@@ -8,7 +8,8 @@ var jpath = require('../index'),
             'multi-predicates',
             'comparison-operators',
             'arithmetic-operators',
-            'logical-expressions'
+            'logical-expressions',
+            'undefined-and-null'
         ].reduce(
             function(tests, name) {
                 return tests.concat(require('./' + name + '-test'));

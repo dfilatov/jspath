@@ -122,11 +122,17 @@
             isArray(val2)? val2[0] : val2);
     }
 
+    function findChild(ctx, prop) {
+        return typeof(ctx) === 'object' && ctx !== null?
+            ctx[prop] :
+            undef;
+    }
+
     function findDescendants(ctx, prop) {
         var res = [], ctxs = [ctx], curCtx, childCtxs;
         while(ctxs.length) {
             curCtx = ctxs.shift();
-            if(typeof(curCtx) !== 'object') {
+            if(typeof(curCtx) !== 'object' || curCtx === null) {
                 continue;
             }
 
@@ -189,10 +195,9 @@ selector
     }
     / '.' prop:prop {
         return function(ctx) {
-            return ctx[prop];
+            return findChild(ctx, prop);
         }
     }
-
 
 prop
     = prop:[-_a-z0-9:/]i+ {
