@@ -169,22 +169,25 @@ start
     = path
 
 path
-    = '@' parts:(part)+ {
-        return function(ctx) {
-            return applyPathFns(ctx, parts);
-        }
-    }
-    / '@' {
-        return function(ctx) {
-            return makeArray(ctx);
-        };
+    = '@' parts:(part)* {
+        return parts.length?
+            function(ctx) {
+                return applyPathFns(ctx, parts);
+            } :
+            function(ctx) {
+                return makeArray(ctx);
+            };
     }
 
 part
     = selector:selector pred:pred* {
-        return function(ctx) {
-            return pred.length? applyPredFns(selector(ctx), pred) : selector(ctx);
-        };
+        return pred.length?
+            function(ctx) {
+                return applyPredFns(selector(ctx), pred);
+            } :
+            function(ctx) {
+                return selector(ctx);
+            };
     }
 
 selector
@@ -435,7 +438,7 @@ hexDigit
     = [0-9a-fA-F]
 
 float
-    = sign:'-'? int:[0-9]* [.] frac:[0-9]+ {
+    = sign:'-'? int:[0-9]* '.' frac:[0-9]+ {
         return parseFloat(sign + int.join('') + '.' + frac.join(''));
     }
 
