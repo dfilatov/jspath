@@ -374,21 +374,21 @@ arrPred
     }
 
 arrPredBetween
-    = idxFrom:int '..' idxTo:int {
+    = idxFrom:int ':' idxTo:int {
         return function(ctx) {
             return ctx.slice(idxFrom, idxTo);
         }
     }
 
 arrPredLess
-    = '..' idx:int {
+    = ':' idx:int {
         return function(ctx) {
             return ctx.slice(0, idx);
         }
     }
 
 arrPredMore
-    = idx:int '..' {
+    = idx:int ':' {
         return function(ctx) {
             return ctx.slice(idx);
         }
