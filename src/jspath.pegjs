@@ -175,11 +175,6 @@ path
             return applyPathFns(ctx, parts);
         };
     }
-    / '@' {
-        return function(ctx) {
-            return ctx;
-        };
-    }
 
 part
     = selector:selector pred:pred* {
@@ -198,10 +193,14 @@ selector
             return findDescendants(ctx, prop);
         }
     }
-    / '.' prop:prop {
-        return function(ctx) {
-            return findChild(ctx, prop);
-        }
+    / '.' prop:prop? {
+        return prop?
+            function(ctx) {
+                return findChild(ctx, prop);
+            } :
+            function(ctx) {
+                return ctx;
+            };
     }
 
 prop

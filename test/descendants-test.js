@@ -5,7 +5,7 @@ module.exports = [
         'Douglas Crockford', 'JavaScript: The Good Parts', 'Douglas Crockford', 'Nicholas C. Zakas',
         'Douglas Crockford', 'Robert C. Martin', 'John Resig'
         ]},
-    { path : '.books[..name[@ === "Douglas Crockford"]].idx', res : [3, 4]},
+    { path : '.books[..name[. === "Douglas Crockford"]].idx', res : [3, 4]},
     {
         path : '..object',
         data : { object : { object : { object : 'object' }, arr : [[{ object : 'arr-object' }]]}},
