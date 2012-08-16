@@ -169,14 +169,15 @@ start
     = path
 
 path
-    = '@' parts:(part)* {
-        return parts.length?
-            function(ctx) {
-                return applyPathFns(ctx, parts);
-            } :
-            function(ctx) {
-                return makeArray(ctx);
-            };
+    = parts:(part)+ {
+        return function(ctx) {
+            return applyPathFns(ctx, parts);
+        };
+    }
+    / '@' {
+        return function(ctx) {
+            return makeArray(ctx);
+        };
     }
 
 part
