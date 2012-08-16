@@ -2,12 +2,9 @@
     var undef,
         isArray = Array.isArray;
 
-    function makeArray(ctx) {
-        return isArray(ctx)? ctx.slice() : [ctx];
-    }
-
     function applyPathFns(ctx, fns) {
-        var fn, i = 0, j, ctxLen, res = makeArray(ctx), fnRes;
+        var fn, i = 0, j, ctxLen, fnRes,
+            res = isArray(ctx)? ctx : [ctx];
 
         while(fn = fns[i++]) {
             j = 0;
@@ -166,7 +163,11 @@
 }
 
 start
-    = path
+    = path:path {
+        return function(root) {
+            return path(isArray(root)? root.slice() : [root]);
+        }
+    }
 
 path
     = parts:(part)+ {
@@ -176,7 +177,7 @@ path
     }
     / '@' {
         return function(ctx) {
-            return makeArray(ctx);
+            return ctx;
         };
     }
 
