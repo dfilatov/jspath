@@ -191,7 +191,7 @@ selector
     = '..' prop:prop {
         return function(ctx) {
             return findDescendants(ctx, prop);
-        }
+        };
     }
     / '.' prop:prop? {
         return prop?

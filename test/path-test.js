@@ -3,8 +3,6 @@ module.exports = [
     { path : '.', data : 'test', res : ['test']},
     { path : '.', data : 5, res : [5]},
     { path : '.', data : true, res : [true]},
-    { path : '.', data : null, res : [null]},
-    { path : '.', data : undefined, res : []},
     { path : '.name', res : ['books and authors']},
     { path : '.noexists', res : []},
     { path : '."test.test"', data : { 'test.test' : 'test' }, res : ['test']},

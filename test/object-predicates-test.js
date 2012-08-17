@@ -1,4 +1,5 @@
 module.exports = [
+    { path : '.[.[.]]', data : 'test', res : ['test'] },
     { path : '.info[.description]', res : [{ description : 'books about javascript' }]},
     { path : '.info[.noexists]', res : []},
     { path : '.books[.favorite].idx', res : [1, 2]},
