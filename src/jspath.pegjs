@@ -62,17 +62,38 @@
         '!=' : function(val1, val2) {
             return val1 != val2;
         },
+        '^==' : function(val1, val2) {
+            return typeof val1 === 'string' &&
+                typeof val2 === 'string' &&
+                val1.indexOf(val2) === 0;
+        },
         '^=' : function(val1, val2) {
-            return val1.toString().indexOf(val2) === 0;
+            return val1 !== null && val2 !== null &&
+                val1.toString().toLowerCase().indexOf(val2.toString().toLowerCase()) === 0;
+        },
+        '$==' : function(val1, val2) {
+            return typeof val1 === 'string' &&
+                typeof val2 === 'string' &&
+                val1.indexOf(val2, val1.length - val2.length) > -1;
         },
         '$=' : function(val1, val2) {
-            var val1Str = val1.toString(),
-                val2Str = val2.toString();
+            if(val1 === null || val2 === null) {
+                return false;
+            }
+
+            var val1Str = val1.toString().toLowerCase(),
+                val2Str = val2.toString().toLowerCase();
 
             return val1Str.indexOf(val2Str, val1Str.length - val2Str.length) > -1;
         },
+        '*==' : function(val1, val2) {
+            return typeof val1 === 'string' &&
+                typeof val2 === 'string' &&
+                val1.indexOf(val2) > -1;
+        },
         '*=' : function(val1, val2) {
-            return val1.toString().indexOf(val2.toString()) > -1;
+            return  val1 !== null && val2 !== null &&
+                val1.toString().toLowerCase().indexOf(val2.toString().toLowerCase()) > -1;
         }
     };
 
@@ -309,8 +330,11 @@ comparisonOperator
     / '<'
     / '!=='
     / '!='
+    / '^=='
     / '^='
+    / '$=='
     / '$='
+    / '*=='
     / '*='
 
 arithmeticExpr
