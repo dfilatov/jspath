@@ -12,5 +12,5 @@ module.exports = [
     { path : '.books[.idx * 2 / 3 === 2].idx', res : [3]},
     { path : '.books[.idx * 2 + 3 * .idx + 2 * 1 === 17].idx', res : [3]},
     { path : '.books[.idx * 2 * 3 === 6].idx', res : [1]},
-    { path : '.books[.idx * 2 / 3 === 2 && .idx * (4 - 2) === 6].idx', res : [3]}
+    { path : '.books[.idx * 2 / 3 === 2 && .idx * (4 - 2) === (2 * .idx)].idx', res : [3]}
 ];
