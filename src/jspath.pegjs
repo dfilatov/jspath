@@ -2,7 +2,7 @@
     var undef,
         isArray = Array.isArray;
 
-    function applyPathFns(ctx, fns) {
+    function applyPathFns(ctx, fns, data) {
         var fn, i = 0, j, ctxLen, fnRes,
             res = isArray(ctx)? ctx : [ctx];
 
@@ -10,7 +10,7 @@
             j = 0;
             ctxLen = res.length;
             while(j < ctxLen) {
-                fnRes = fn(res[j++]);
+                fnRes = fn(res[j++], data);
                 if(isArray(fnRes)) {
                     res = res.concat(fnRes);
                 }
@@ -27,11 +27,11 @@
         return res;
     }
 
-    function applyPredFns(ctx, fns) {
+    function applyPredFns(ctx, fns, data) {
         var fn, i = 0, res = ctx;
 
         while((fn = fns[i++]) && typeof res !== 'undefined') {
-            res = fn(res);
+            res = fn(res, data);
         }
 
         return res;
@@ -186,24 +186,25 @@
 start
     = path:path {
         return function(root) {
-            return path(isArray(root)? root.slice() : [root]);
+            var root = isArray(root)? root.slice() : [root];
+            return path(root, { root : root });
         }
     }
 
 path
-    = parts:(part)+ {
-        return function(ctx) {
-            return applyPathFns(ctx, parts);
+    = fromRoot:'^'? parts:(part)+ {
+        return function(ctx, data) {
+            return applyPathFns(fromRoot? data.root : ctx, parts, data);
         };
     }
 
 part
     = selector:selector pred:pred* {
         return pred.length?
-            function(ctx) {
-                return applyPredFns(selector(ctx), pred);
+            function(ctx, data) {
+                return applyPredFns(selector(ctx), pred, data);
             } :
-            function(ctx) {
+            function(ctx, data) {
                 return selector(ctx);
             };
     }
@@ -239,12 +240,12 @@ pred
 
 objPred
     = expr:expr {
-        return function(ctx) {
+        return function(ctx, data) {
             return isArray(ctx)?
                 ctx.filter(function(item) {
-                    return expr(item);
+                    return expr(item, data);
                 }) :
-                expr(ctx)? ctx : undef;
+                expr(ctx, data)? ctx : undef;
         }
     }
 
@@ -259,14 +260,14 @@ logicalExpr
 
 logicalANDExpr
     = head:(notLogicalExpr / logicalNOTExpr) _ tail:('&&' _ expr)+ {
-        return function(ctx) {
-            if(!head(ctx)) {
+        return function(ctx, data) {
+            if(!head(ctx, data)) {
                 return false;
             }
 
             var i = 0, len = tail.length;
             while(i < len) {
-                if(!tail[i++][2](ctx)) {
+                if(!tail[i++][2](ctx, data)) {
                     return false;
                 }
             }
@@ -277,14 +278,14 @@ logicalANDExpr
 
 logicalORExpr
     = head:(notLogicalExpr / logicalNOTExpr) _ tail:('||' _ expr)+ {
-        return function(ctx) {
-            if(head(ctx)) {
+        return function(ctx, data) {
+            if(head(ctx, data)) {
                 return true;
             }
 
             var i = 0, len = tail.length;
             while(i < len) {
-                if(tail[i++][2](ctx)) {
+                if(tail[i++][2](ctx, data)) {
                     return true;
                 }
             }
@@ -295,8 +296,8 @@ logicalORExpr
 
 logicalNOTExpr
     = '!' _ expr:notLogicalExpr {
-        return function(ctx) {
-            return !expr(ctx);
+        return function(ctx, data) {
+            return !expr(ctx, data);
         }
     }
 
@@ -316,8 +317,8 @@ operatorExpr
 
 comparisonExpr
     = left:arithmeticExpr _ comparisonOperator:comparisonOperator _ right:arithmeticExpr {
-        return function(ctx) {
-            return applyComparisonOperator(left(ctx, true), right(ctx, true), comparisonOperator);
+        return function(ctx, data) {
+            return applyComparisonOperator(left(ctx, data, true), right(ctx, data, true), comparisonOperator);
         }
     }
 
@@ -343,15 +344,15 @@ arithmeticExpr
 
 additiveExpr
     = left:multiplicativeExpr _ additiveOperator:additiveOperator _ right:arithmeticExpr {
-        return function(ctx) {
-            return applyArithmeticOperator(left(ctx, true), right(ctx, true), additiveOperator);
+        return function(ctx, data) {
+            return applyArithmeticOperator(left(ctx, data, true), right(ctx, data, true), additiveOperator);
         }
     }
 
 multiplicativeExpr
     = left:primaryArithmeticExpr _ multiplicativeOperator:multiplicativeOperator _ right:multiplicativeExpr {
-        return function(ctx) {
-            return applyArithmeticOperator(left(ctx, true), right(ctx, true), multiplicativeOperator);
+        return function(ctx, data) {
+            return applyArithmeticOperator(left(ctx, data, true), right(ctx, data, true), multiplicativeOperator);
         }
     }
     / primaryArithmeticExpr
@@ -377,8 +378,8 @@ termExpr
 
 pathExpr
     = path:path {
-        return function(ctx, asValue) {
-            return asValue? path(ctx) : !!path(ctx).length;
+        return function(ctx, data, asValue) {
+            return asValue? path(ctx, data) : !!path(ctx, data).length;
         }
     }
 
