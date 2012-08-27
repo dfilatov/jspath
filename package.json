@@ -12,8 +12,11 @@
     },
     "dependencies" : {},
     "devDependencies" : {
-        "pegjs"    : "= 0.7.0",
-        "nodeunit" : "= 0.7.4"
+        "pegjs"     : "= 0.7.0",
+        "nodeunit"  : "= 0.7.4",
+        "cliff"     : "",
+        "benchmark" : ""
+
     },
     "main" : "index",
     "engines" : { "node" : ">= 0.4.0" },

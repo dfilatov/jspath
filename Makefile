@@ -4,4 +4,7 @@ parser:
 test: parser
 	./node_modules/.bin/nodeunit test/test.js
 
+benchmark: parser
+	node benchmarks/parsing.js
+
 .PHONY: parser test
