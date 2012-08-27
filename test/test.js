@@ -1,5 +1,6 @@
-var jpath = require('../index'),
+var jspath = require('../index'),
     testData = require('./data'),
+    testDataCopy = JSON.parse(JSON.stringify(testData)),
     tests = [
             'path',
             'descendants',
@@ -10,7 +11,8 @@ var jpath = require('../index'),
             'arithmetic-operators',
             'logical-expressions',
             'undefined-and-null',
-            'root'
+            'root',
+            'substs'
         ].reduce(
             function(tests, name) {
                 return tests.concat(require('./' + name + '-test'));
@@ -19,7 +21,18 @@ var jpath = require('../index'),
 
 tests.forEach(function(testItem, i) {
     exports[i + 1 + '. ' + testItem.path] = function(test) {
-        test.deepEqual(jpath.apply(testItem.path, 'data' in testItem? testItem.data : testData), testItem.res);
+        test.deepEqual(
+            jspath.apply({
+                path   : testItem.path,
+                ctx    : 'data' in testItem? testItem.data : testData,
+                substs : testItem.substs
+            }),
+            testItem.res);
         test.done();
     };
 });
+
+exports['immutable data'] = function(test) {
+    test.deepEqual(testData, testDataCopy);
+    test.done();
+};

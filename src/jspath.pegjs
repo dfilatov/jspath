@@ -185,9 +185,9 @@
 
 start
     = path:path {
-        return function(root) {
-            var root = isArray(root)? root.slice() : [root];
-            return path(root, { root : root });
+        return function(root, substs) {
+            isArray(root) && (root = root.slice());
+            return path(root, { root : root, substs : substs });
         }
     }
 
@@ -374,6 +374,7 @@ multiplicativeOperator
 
 termExpr
     = pathExpr
+    / substExpr
     / valueExpr
 
 pathExpr
@@ -381,6 +382,13 @@ pathExpr
         return function(ctx, data, asValue) {
             return asValue? path(ctx, data) : !!path(ctx, data).length;
         }
+    }
+
+substExpr
+    = '{' _ subst:[-_a-z0-9:/]i+ _ '}' {
+        return function(ctx, data) {
+            return data.substs[subst.join('')];
+        };
     }
 
 valueExpr
