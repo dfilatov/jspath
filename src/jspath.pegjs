@@ -385,7 +385,7 @@ pathExpr
     }
 
 substExpr
-    = '{' _ subst:[-_a-z0-9:/]i+ _ '}' {
+    = '$' _ subst:[-_a-z0-9]i+ {
         return function(ctx, data) {
             return data.substs[subst.join('')];
         };
