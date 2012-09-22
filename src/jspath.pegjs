@@ -400,40 +400,49 @@ valueExpr
 
 arrPred
     = arrPred:(arrPredBetween / arrPredLess / arrPredMore / arrPredIdx) {
-        return function(ctx) {
+        return function(ctx, data) {
             return isArray(ctx)?
-                arrPred(ctx) :
+                arrPred(ctx, data) :
                 undef;
         }
     }
 
 arrPredBetween
-    = idxFrom:int ':' idxTo:int {
-        return function(ctx) {
-            return ctx.slice(idxFrom, idxTo);
+    = idxFrom:arrPredIdxExpr ':' idxTo:arrPredIdxExpr {
+        return function(ctx, data) {
+            return ctx.slice(idxFrom(ctx, data), idxTo(ctx, data));
         }
     }
 
 arrPredLess
-    = ':' idx:int {
-        return function(ctx) {
-            return ctx.slice(0, idx);
+    = ':' idx:arrPredIdxExpr {
+        return function(ctx, data) {
+            return ctx.slice(0, idx(ctx, data));
         }
     }
 
 arrPredMore
-    = idx:int ':' {
-        return function(ctx) {
-            return ctx.slice(idx);
+    = idx:arrPredIdxExpr ':' {
+        return function(ctx, data) {
+            return ctx.slice(idx(ctx, data));
         }
     }
 
 arrPredIdx
-    = idx:int {
-        return function(ctx) {
-            return idx >= 0? ctx[idx] : ctx[ctx.length + idx];
+    = idx:arrPredIdxExpr {
+        return function(ctx, data) {
+            var idxVal = idx(ctx, data);
+            return idxVal >= 0? ctx[idxVal] : ctx[ctx.length + idxVal];
         }
     }
+
+arrPredIdxExpr
+    = int:int {
+        return function(ctx) {
+            return int;
+        }
+    }
+    / substExpr
 
 value
     = boolean / string / float / int
