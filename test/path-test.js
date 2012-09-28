@@ -7,5 +7,6 @@ module.exports = [
     { path : '.noexists', res : []},
     { path : '."test.test"', data : { 'test.test' : 'test' }, res : ['test']},
     { path : '.authors.name', res : ['Nicholas C. Zakas', 'Douglas Crockford', 'Robert C. Martin', 'John Resig']},
-    { path : '.books.author.name', res : ['Robert C. Martin', 'Nicholas C. Zakas', 'Robert C. Martin', 'Douglas Crockford', 'Douglas Crockford']}
+    { path : '.books.author.name', res : ['Robert C. Martin', 'Nicholas C. Zakas', 'Robert C. Martin', 'Douglas Crockford', 'Douglas Crockford']},
+    { path : '.info.*', res : ['books about javascript', 'content']}
 ];

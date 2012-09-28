@@ -140,9 +140,15 @@
             isArray(val2)? val2[0] : val2);
     }
 
+    function findAllProps(ctx) {
+        return Object.keys(ctx).map(function(prop) {
+            return ctx[prop];
+        });
+    }
+
     function findChild(ctx, prop) {
         return typeof(ctx) === 'object' && ctx !== null?
-            ctx[prop] :
+            prop === '*'? findAllProps(ctx) : ctx[prop] :
             undef;
     }
 
@@ -154,7 +160,10 @@
                 continue;
             }
 
-            curCtx.hasOwnProperty(prop) && res.push(curCtx[prop]);
+            prop === '*'?
+                res = res.concat(findAllProps(curCtx)) :
+                curCtx.hasOwnProperty(prop) && res.push(curCtx[prop]);
+
             childCtxs = undef;
             isArray(curCtx)?
                 curCtx.forEach(function(ctx) {
@@ -231,6 +240,9 @@ prop
     }
     / '"' prop:[-_a-z0-9:/.]i+ '"' {
         return prop.join('');
+    }
+    / '*' {
+        return '*';
     }
 
 pred

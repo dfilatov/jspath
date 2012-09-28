@@ -1,7 +1,8 @@
 module.exports = [{
     name : 'books and authors',
     info : {
-        description : 'books about javascript'
+        description : 'books about javascript',
+        content : 'content'
     },
     booksCount : 5,
     books : [
@@ -52,7 +53,7 @@ module.exports = [{
         }
     ],
     authors : [
-        { name : 'Nicholas C. Zakas' },
+        { name : 'Nicholas C. Zakas', skills : ['javascript', 'php'] },
         { name : 'Douglas Crockford' },
         { name : 'Robert C. Martin' },
         { name : 'John Resig' }

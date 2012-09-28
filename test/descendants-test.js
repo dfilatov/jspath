@@ -15,5 +15,15 @@ module.exports = [
             'object',
             'arr-object'
         ]
+    },
+    {
+        path : '.authors..*',
+        res : [
+            'Nicholas C. Zakas',
+            ['javascript', 'php'],
+            'Douglas Crockford',
+            'Robert C. Martin',
+            'John Resig'
+        ]
     }
 ];
