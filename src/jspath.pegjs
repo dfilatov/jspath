@@ -3,11 +3,11 @@
         isArray = Array.isArray;
 
     function applyPathFns(ctx, fns, data) {
-        var fn, i = 0, j, ctxLen, fnRes,
-            res = isArray(ctx)? ctx : [ctx];
+        var fn, i = 0, ctxLen, fnRes,
+            res = isArray(ctx)? ctx : [ctx],
+            j = 0;
 
         while(fn = fns[i++]) {
-            j = 0;
             ctxLen = res.length;
             while(j < ctxLen) {
                 fnRes = fn(res[j++], data);
@@ -18,12 +18,12 @@
                     res.push(fnRes);
                 }
             }
-            res.splice(0, ctxLen);
-            if(!res.length) {
+            if(j === res.length) {
                 break;
             }
         }
 
+        res.splice(0, j);
         return res;
     }
 
@@ -92,7 +92,7 @@
                 val1.indexOf(val2) > -1;
         },
         '*=' : function(val1, val2) {
-            return  val1 !== null && val2 !== null &&
+            return val1 !== null && val2 !== null &&
                 val1.toString().toLowerCase().indexOf(val2.toString().toLowerCase()) > -1;
         }
     };
@@ -140,15 +140,17 @@
             isArray(val2)? val2[0] : val2);
     }
 
-    function findAllProps(ctx) {
-        return Object.keys(ctx).map(function(prop) {
-            return ctx[prop];
-        });
+    function findChild(ctx, prop) {
+        return typeof ctx === 'object' && ctx !== null?
+            ctx[prop] :
+            undef;
     }
 
-    function findChild(ctx, prop) {
-        return typeof(ctx) === 'object' && ctx !== null?
-            prop === '*'? findAllProps(ctx) : ctx[prop] :
+    function findAllChildren(ctx) {
+        return typeof ctx === 'object' && ctx !== null?
+            Object.keys(ctx).map(function(prop) {
+                return ctx[prop];
+            }) :
             undef;
     }
 
@@ -156,12 +158,12 @@
         var res = [], ctxs = [ctx], curCtx, childCtxs;
         while(ctxs.length) {
             curCtx = ctxs.shift();
-            if(typeof(curCtx) !== 'object' || curCtx === null) {
+            if(typeof curCtx !== 'object' || curCtx === null) {
                 continue;
             }
 
             prop === '*'?
-                res = res.concat(findAllProps(curCtx)) :
+                res = res.concat(findAllChildren(curCtx)) :
                 curCtx.hasOwnProperty(prop) && res.push(curCtx[prop]);
 
             childCtxs = undef;
@@ -226,9 +228,11 @@ selector
     }
     / '.' prop:prop? {
         return prop?
-            function(ctx) {
-                return findChild(ctx, prop);
-            } :
+            prop === '*'?
+                findAllChildren :
+                function(ctx) {
+                    return findChild(ctx, prop);
+                } :
             function(ctx) {
                 return ctx;
             };
