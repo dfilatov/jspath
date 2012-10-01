@@ -140,12 +140,6 @@
             isArray(val2)? val2[0] : val2);
     }
 
-    function findChild(ctx, prop) {
-        return typeof ctx === 'object' && ctx !== null?
-            ctx[prop] :
-            undef;
-    }
-
     function findAllChildren(ctx) {
         return typeof ctx === 'object' && ctx !== null?
             Object.keys(ctx).map(function(prop) {
@@ -215,9 +209,7 @@ part
             function(ctx, data) {
                 return applyPredFns(selector(ctx), pred, data);
             } :
-            function(ctx, data) {
-                return selector(ctx);
-            };
+            selector;
     }
 
 selector
@@ -231,7 +223,9 @@ selector
             prop === '*'?
                 findAllChildren :
                 function(ctx) {
-                    return findChild(ctx, prop);
+                    return typeof ctx === 'object' && ctx !== null?
+                        ctx[prop] :
+                        undef;
                 } :
             function(ctx) {
                 return ctx;
