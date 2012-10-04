@@ -1,36 +1,35 @@
 {
-    var undef,
-        isArray = Array.isArray;
+    var undef;
 
     function applyPathFns(ctx, fns, data) {
         var fn, i = 0, ctxLen, fnRes,
-            res = isArray(ctx)? ctx : [ctx],
+            res = Array.isArray(ctx)? ctx.slice() : [ctx],
             j = 0;
 
         while(fn = fns[i++]) {
             ctxLen = res.length;
             while(j < ctxLen) {
                 fnRes = fn(res[j++], data);
-                if(isArray(fnRes)) {
+                if(Array.isArray(fnRes)) {
                     res = res.concat(fnRes);
                 }
                 else if(typeof fnRes !== 'undefined') {
                     res.push(fnRes);
                 }
             }
+
             if(j === res.length) {
                 break;
             }
         }
 
-        res.splice(0, j);
-        return res;
+        return res.slice(j);
     }
 
     function applyPredFns(ctx, fns, data) {
         var fn, i = 0, res = ctx;
 
-        while((fn = fns[i++]) && typeof res !== 'undefined') {
+        while(typeof res !== 'undefined' && (fn = fns[i++])) {
             res = fn(res, data);
         }
 
@@ -99,8 +98,8 @@
 
     function applyComparisonOperator(val1, val2, operator) {
         var operatorFn = comparisonOperators[operator];
-        return isArray(val1)?
-            isArray(val2)?
+        return Array.isArray(val1)?
+            Array.isArray(val2)?
                 val1.some(function(val1) {
                     return val2.some(function(val2) {
                         return operatorFn(val1, val2);
@@ -109,7 +108,7 @@
                 val1.some(function(val1) {
                     return operatorFn(val1, val2);
                 }) :
-            isArray(val2)?
+            Array.isArray(val2)?
                 val2.some(function(val2) {
                     return operatorFn(val1, val2);
                 }) :
@@ -136,8 +135,8 @@
 
     function applyArithmeticOperator(val1, val2, operator) {
         return arithmeticOperators[operator](
-            isArray(val1)? val1[0] : val1,
-            isArray(val2)? val2[0] : val2);
+            Array.isArray(val1)? val1[0] : val1,
+            Array.isArray(val2)? val2[0] : val2);
     }
 
     function findAllChildren(ctx) {
@@ -161,7 +160,7 @@
                 curCtx.hasOwnProperty(prop) && res.push(curCtx[prop]);
 
             childCtxs = undef;
-            isArray(curCtx)?
+            Array.isArray(curCtx)?
                 curCtx.forEach(function(ctx) {
                     childCtxs = appendObjectToArray(childCtxs, ctx);
                 }) :
@@ -179,7 +178,7 @@
             return arr;
         }
 
-        if(isArray(val)) {
+        if(Array.isArray(val)) {
             return arr? arr.concat(val) : val.slice();
         }
 
@@ -191,15 +190,15 @@
 start
     = path:path {
         return function(root, substs) {
-            isArray(root) && (root = root.slice());
-            return path(root, { root : root, substs : substs });
+            return path(root, { root : root, substs : substs }, true);
         }
     }
 
 path
     = fromRoot:'^'? parts:(part)+ {
-        return function(ctx, data) {
-            return applyPathFns(fromRoot? data.root : ctx, parts, data);
+        return function(ctx, data, asValue) {
+            var pathRes = applyPathFns(fromRoot? data.root : ctx, parts, data);
+            return asValue? pathRes : !!pathRes.length;
         };
     }
 
@@ -251,9 +250,9 @@ pred
 objPred
     = expr:expr {
         return function(ctx, data) {
-            return isArray(ctx)?
-                ctx.filter(function(item) {
-                    return expr(item, data);
+            return Array.isArray(ctx)?
+                ctx.filter(function(ctx) {
+                    return !!expr(ctx, data);
                 }) :
                 expr(ctx, data)? ctx : undef;
         }
@@ -383,16 +382,9 @@ multiplicativeOperator
     / '%'
 
 termExpr
-    = pathExpr
+    = path
     / substExpr
     / valueExpr
-
-pathExpr
-    = path:path {
-        return function(ctx, data, asValue) {
-            return asValue? path(ctx, data) : !!path(ctx, data).length;
-        }
-    }
 
 substExpr
     = '$' _ subst:[-_a-z0-9]i+ {
@@ -411,7 +403,7 @@ valueExpr
 arrPred
     = arrPred:(arrPredBetween / arrPredLess / arrPredMore / arrPredIdx) {
         return function(ctx, data) {
-            return isArray(ctx)?
+            return Array.isArray(ctx)?
                 arrPred(ctx, data) :
                 undef;
         }
