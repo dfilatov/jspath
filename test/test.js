@@ -3,7 +3,7 @@ var jspath = require('../index'),
     testDataCopy = JSON.parse(JSON.stringify(testData)),
     tests = [
             'path',
-            'descendants',
+            'descendants'/*,
             'object-predicates',
             'array-predicates',
             'multi-predicates',
@@ -12,7 +12,7 @@ var jspath = require('../index'),
             'logical-expressions',
             'undefined-and-null',
             'root',
-            'substs'
+            'substs'*/
         ].reduce(
             function(tests, name) {
                 return tests.concat(require('./' + name + '-test'));
@@ -22,11 +22,10 @@ var jspath = require('../index'),
 tests.forEach(function(testItem, i) {
     exports[i + 1 + '. ' + testItem.path] = function(test) {
         test.deepEqual(
-            jspath.apply({
-                path   : testItem.path,
-                ctx    : 'data' in testItem? testItem.data : testData,
-                substs : testItem.substs
-            }),
+            jspath.apply(
+                testItem.path,
+                'data' in testItem? testItem.data : testData,
+                testItem.substs),
             testItem.res);
         test.done();
     };
