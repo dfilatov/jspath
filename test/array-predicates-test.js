@@ -14,5 +14,6 @@ module.exports = [
     { path : '.books[:-2].idx', res : [0, 1, 2]},
     { path : '.books[:0].idx', res : []},
     { path : '.books[1:][0].idx', res : [1]},
-    { path : '.booksCount[10][10].idx', res : []}
+    { path : '.booksCount[10][10].idx', res : []},
+    { path : '.books[^.books[3].idx].idx', res : [3]},
 ];
