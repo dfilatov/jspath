@@ -3,7 +3,7 @@ var jspath = require('../index'),
     testDataCopy = JSON.parse(JSON.stringify(testData)),
     tests = [
             'path',
-            'descendants'/*,
+            'descendants',
             'object-predicates',
             'array-predicates',
             'multi-predicates',
@@ -12,7 +12,7 @@ var jspath = require('../index'),
             'logical-expressions',
             'undefined-and-null',
             'root',
-            'substs'*/
+            'substs'
         ].reduce(
             function(tests, name) {
                 return tests.concat(require('./' + name + '-test'));
