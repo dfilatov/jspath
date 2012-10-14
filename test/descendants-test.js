@@ -1,4 +1,5 @@
 module.exports = [
+    { path : '..id', res : [1, 2], data : [[[[{ id : 1, data : [[[{ id : 2 }]]]}]]]]},
     { path : '..name', res : [
         'books and authors', 'Clean Code', 'Robert C. Martin', 'Maintainable JavaScript',
         'Nicholas C. Zakas', 'Agile Software Development', 'Robert C. Martin', 'JavaScript: The Good Parts',
