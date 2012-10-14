@@ -1,5 +1,6 @@
 module.exports = [
-    { path : '.books{.author.name == "Robert C. Martin"}.idx', res : [0, 2]},
+    { path : '.books{.author.name === "Robert c. Martin"}.idx', res : []},
+    { path : '.books{.author.name == "Robert c. Martin"}.idx', res : [0, 2]},
     { path : '.books{.author.name == "John Resig"}', res : []},
     { path : '.books{.favorite === true}.idx', res : [1]},
     { path : '.books{.idx != "1"}.idx', res : [0, 2, 3, 4]},
