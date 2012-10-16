@@ -21,7 +21,8 @@ module.exports = [
         path : '.authors..*',
         res : [
             'Nicholas C. Zakas',
-            ['javascript', 'php'],
+            'javascript',
+            'php',
             'Douglas Crockford',
             'Robert C. Martin',
             'John Resig'
