@@ -279,6 +279,40 @@ Logical operators convert their operands to boolean values using next rules:
   </tr>  
 </table>
 
+####Operator precedence####
+<table>
+  <tr>
+    <td>1 (top)</td>
+    <td>! -<sup>unary</sup></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>* / %</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>+ -<sup>binary</sup></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>< <= > >=</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>== === != !== ^= ^== $== $= *= $==</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>&&</td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td>||</td>
+  </tr>
+</table>
+  
+Parentheses are used to explicitly denote precedence by grouping parts of an expression that should be evaluated first.
+
 ####Examples####
 ```javascript
 // find all book names whose author is Robert C. Martin
