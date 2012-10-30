@@ -26,9 +26,27 @@ JSPath.apply(path, json);
 JSPath.apply(path, json, substs);
 ```
 where:
-  * path &mdash; {String} path expression
-  * json &mdash; {*} JSON document
-  * [substs] &mdash; {Object} optional substitutions
+<table>
+  <tr>
+    <th></th>
+    <th>type</th>
+    <th>description</th>
+  <tr>
+    <td>path</td>
+    <td>String</td>
+    <td>path expression</td>
+  </tr>
+  <tr>
+    <td>json</td>
+    <td>any valid JSON</td>
+    <td>input JSON document</td>
+  </tr>
+  <tr>
+    <td>substs</td>
+    <td>Object</td>
+    <td>substitutions (optional)</td>
+  </tr>
+</table>
 
 ###Quick example###
 ```javascript
