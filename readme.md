@@ -130,10 +130,10 @@ Basic expressions in object predicates:
   * subpathes (e.g. .nestedProp.deeplyNestedProp)
 
 JSPath allows to use in predicate expressions following types of operators:
-  * Comparison operators
-  * String comparison operators
-  * Logical operators
-  * Arithmetic operators
+  * comparison operators
+  * string comparison operators
+  * logical operators
+  * arithmetic operators
 
 ####Comparison operators####
 
@@ -299,7 +299,7 @@ Logical operators convert their operands to boolean values using next rules:
   </tr>
   <tr>
     <td>5</td>
-    <td>== === != !== ^= ^== $== $= *= $==</td>
+    <td>== === != !== ^= ^== $== $= *= *==</td>
   </tr>
   <tr>
     <td>6</td>
