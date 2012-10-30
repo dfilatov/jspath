@@ -81,7 +81,7 @@ Every location step starts with dot (.) or two dots (..) depending on the node y
   * ..property &mdash; locates property nodes deeply descended from the context nodes
   * . &mdash; locates the context nodes itself
 
-Also JSPath allows the wildcard symbol (*) instead of exact property.
+Also JSPath allows the wildcard symbol (*) instead of exact name of property.
 
 Your location path can be absolute or relative.
 If location path starts with the root (^) you are using an absolute location path &mdash; your location path begins from the root node.
@@ -270,7 +270,7 @@ Logical operators convert their operands to boolean values using next rules:
   * if operand is array (as you remember result of applying subpath also array):
     * if length of array greater than zero, result will be true
     * else result will be false
-  * Casting with double NOT (!!) javascript operator uses in any other cases.
+  * Casting with double NOT (!!) javascript operator used in any other cases.
 
 ####Arithmetic operators####
 
@@ -347,10 +347,10 @@ Positional predicates allows you to filter nodes by their context position.
 Positional predicates are always embedded in square brackets.
 
 There are four available forms:
-  * [3] &mdash; returns fourth node in context
-  * [2:] &mdash; returns nodes whose position in context beginning from 2
+  * [3] &mdash; returns fourth node in context (first node is at index 0)
+  * [2:] &mdash; returns nodes whose index in context is greater or equal to 2
   * [:5] &mdash; returns first five nodes in context
-  * [2:5] &mdash; returns three nodes with position 2, 3, 4
+  * [2:5] &mdash; returns three nodes with index 2, 3 and 4
   
 Also you can use negative position numbers:
   * [-1] &mdash; returns last node in context
@@ -390,7 +390,7 @@ JSPath.apply('.books{.price < 15}{.price > 5}[0].name', doc);
 ```
 
 ###Substitutions###
-Substitutions allows you to use in predicates a values available only in runtime.
+Substitutions allows you to use a runtime-evaluated values in predicates.
 
 ####Examples####
 ```javascript
