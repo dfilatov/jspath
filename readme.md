@@ -1,7 +1,7 @@
 JSPath [![Build Status](https://secure.travis-ci.org/dfilatov/jspath.png)](http://travis-ci.org/dfilatov/jspath)
 ============
 
-JSPath is a domain-specific language (DSL) that enables you to navigate and find data within your JSON documents. Using JSPath, you can select nodes of JSON in order to retrieve the data they contain.
+JSPath is a domain-specific language (DSL) that enables you to navigate and find data within your JSON documents. Using JSPath, you can select items of JSON in order to retrieve the data they contain.
 
 JSPath for JSON like an XPath for XML.
 
@@ -74,17 +74,17 @@ The result of applying JSPath is always an array.
 JSPath consists of two type of top-level expressions: location path (required) and predicates (optional).
 
 ###Location path###
-To select a nodes in JSPath, you use a location path.
+To select a items in JSPath, you use a location path.
 A location path consists of one or more location steps.
-Every location step starts with dot (.) or two dots (..) depending on the node you're trying to select:
-  * .property &mdash; locates property nodes immediately descended from the context nodes
-  * ..property &mdash; locates property nodes deeply descended from the context nodes
-  * . &mdash; locates the context nodes itself
+Every location step starts with dot (.) or two dots (..) depending on the item you're trying to select:
+  * .property &mdash; locates property immediately descended from the context items
+  * ..property &mdash; locates property deeply descended from the context items
+  * . &mdash; locates the context items itself
 
 Also JSPath allows the wildcard symbol (*) instead of exact name of property.
 
 Your location path can be absolute or relative.
-If location path starts with the root (^) you are using an absolute location path &mdash; your location path begins from the root node.
+If location path starts with the root (^) you are using an absolute location path &mdash; your location path begins from the root items.
 
 Consider the following JSON:
 ```javascript
@@ -134,11 +134,11 @@ JSPath.apply('.books..name', doc);
 ```
 
 ###Predicates###
-An JSPath predicate allows you to write very specific rules about the nodes you'd like to select when constructing your expressions.
-Predicates are filters that restrict the nodes selected by an location path. There are two possible type of predicates: object and positional.
+An JSPath predicate allows you to write very specific rules about the items you'd like to select when constructing your expressions.
+Predicates are filters that restrict the items selected by an location path. There are two possible type of predicates: object and positional.
 
 ###Object predicates###
-Object predicates can be used in a path expression to filter a subset of nodes according to a boolean expressions working on a properties of each node.
+Object predicates can be used in a path expression to filter a subset of items according to a boolean expressions working on a properties of each item.
 Object predicates are embedded in braces.
 
 Basic expressions in object predicates:
@@ -343,18 +343,18 @@ JSPath.apply('.books{.price < 17}.name', doc);
 ```
 
 ###Positional predicates###
-Positional predicates allows you to filter nodes by their context position.
+Positional predicates allows you to filter items by their context position.
 Positional predicates are always embedded in square brackets.
 
 There are four available forms:
-  * [3] &mdash; returns fourth node in context (first node is at index 0)
-  * [2:] &mdash; returns nodes whose index in context is greater or equal to 2
-  * [:5] &mdash; returns first five nodes in context
-  * [2:5] &mdash; returns three nodes with index 2, 3 and 4
+  * [3] &mdash; returns fourth item in context (first item is at index 0)
+  * [2:] &mdash; returns items whose index in context is greater or equal to 2
+  * [:5] &mdash; returns first five items in context
+  * [2:5] &mdash; returns three items with indices 2, 3 and 4
   
 Also you can use negative position numbers:
-  * [-1] &mdash; returns last node in context
-  * [-3:] &mdash; returns last three nodes in context
+  * [-1] &mdash; returns last item in context
+  * [-3:] &mdash; returns last three items in context
 
 ####Examples####
 ```javascript
@@ -380,7 +380,7 @@ JSPath.apply('.books[1:3].name', doc);
 ```
 
 ###Multiple predicates###
-You can use more than one predicate. The result will contain only the nodes that match all the predicates.
+You can use more than one predicate. The result will contain only the items that match all the predicates.
 
 ####Examples####
 ```javascript
