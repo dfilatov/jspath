@@ -159,7 +159,7 @@ JSPath allows to use in predicate expressions following types of operators:
   <tr>
     <td>==</td>
     <td>Returns is true if both operands are equal</td>
-    <td>.books{.id == 1}</td>
+    <td>.books{.id == "1"}</td>
   </tr>
   <tr>
     <td>===</td>
@@ -169,7 +169,7 @@ JSPath allows to use in predicate expressions following types of operators:
   <tr>
     <td>!=</td>
     <td>Returns true if the operands are not equal</td>
-    <td>.books{.id != 1}</td>
+    <td>.books{.id != "1"}</td>
   </tr>
   <tr>
     <td>!==</td>
