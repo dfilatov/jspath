@@ -5,6 +5,8 @@ JSPath is a domain-specific language (DSL) that enables you to navigate and find
 
 JSPath for JSON like an XPath for XML.
 
+It is heavily optimized both for Node.js and modern browsers.
+
 Installing
 ----------
 ###In the Node.js###
