@@ -7,6 +7,26 @@ JSPath for JSON like an XPath for XML.
 
 It is heavily optimized both for Node.js and modern browsers.
 
+Table of Contents
+-----------------
+  * [Installing](#installing)
+    * [In the Node.js](#in-the-nodejs) 
+    * [In the Browsers](#in-the-browsers)
+  * [Usage](#usage)
+    * [Quick example](#quick-example) 
+  * [Documentation](#documentation)
+    * [Location path](#location-path)
+    * [Predicates](#predicates)
+    * [Object predicates](#object-predicates)
+      * [Comparison operators](#comparison-operators)
+      * [String comparison operators](#string-comparison-operators)
+      * [Logical operators](#logical-operators)
+      * [Arithmetic operators](#arithmetic-operators)
+      * [Operator precedence](#operator-precedence)
+    * [Positional predicates](#positional-predicates)
+    * [Multiple predicates](#multiple-predicates)
+    * [Substitutions](#substitutions)
+
 Installing
 ----------
 ###In the Node.js###
