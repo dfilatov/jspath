@@ -9,7 +9,7 @@ It is heavily optimized both for Node.js and modern browsers.
 
 Table of Contents
 -----------------
-  * [Installing](#installing)
+  * [Getting Started](#getting-started)
     * [In the Node.js](#in-the-nodejs) 
     * [In the Browsers](#in-the-browsers)
   * [Usage](#usage)
@@ -27,8 +27,8 @@ Table of Contents
     * [Multiple predicates](#multiple-predicates)
     * [Substitutions](#substitutions)
 
-Installing
-----------
+Getting Started
+---------------
 ###In the Node.js###
 You can install using Node Package Manager (npm):
 
