@@ -79,14 +79,15 @@ JSPath.apply(
             { "maker" : "Nissan", "model" : "Teana", "year" : 2011 },
             { "maker" : "Honda", "model" : "Jazz", "year" : 2010 },
             { "maker" : "Honda", "model" : "Civic", "year" : 2007 },
-            { "maker" : "Toyota", "model" : "Yaris", "year" : 2008 }            
+            { "maker" : "Toyota", "model" : "Yaris", "year" : 2008 },
+            { "maker" : "Honda", "model" : "Accord", "year" : 2011 }
         ],
         "motorcycles" : [{ "maker" : "Honda", "model" : "ST1300", "year" : 2012 }]
     });
 ```
 Result will be:
 ```javascript
-['Jazz']
+['Jazz', 'Accord']
 ```
 
 Documentation
