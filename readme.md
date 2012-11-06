@@ -94,7 +94,7 @@ Documentation
 -------------
 The result of applying JSPath is always an array.
 
-JSPath consists of two type of top-level expressions: location path (required) and predicates (optional).
+JSPath expression consists of two type of top-level expressions: location path (required) and predicates (optional).
 
 ###Location path###
 To select a items in JSPath, you use a location path.
