@@ -370,10 +370,10 @@ Positional predicates allows you to filter items by their context position.
 Positional predicates are always embedded in square brackets.
 
 There are four available forms:
-  * [3] &mdash; returns fourth item in context (first item is at index 0)
-  * [2:] &mdash; returns items whose index in context is greater or equal to 2
-  * [:5] &mdash; returns first five items in context
-  * [2:5] &mdash; returns three items with indices 2, 3 and 4
+  * [ _index_ ] &mdash; returns _index_-positioned item in context (first item is at index 0), e.g. [3] returns fourth item in context
+  * [ _index_ : ] &mdash; returns items whose index in context is greater or equal to _index_, e.g. [2:] returns items whose index in context is greater or equal to 2
+  * [ : _index_ ] &mdash; returns items whose index in context is smaller than _index_, e.g. [:5] returns first five items in context
+  * [ _indexFrom_ : _indexTo_ ] &mdash; returns items whose index in context is greater or equal to _indexFrom_ and smaller than _indexTo_, e.g. [2:5] returns three items with indices 2, 3 and 4
   
 Also you can use negative position numbers:
   * [-1] &mdash; returns last item in context
