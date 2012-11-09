@@ -1,6 +1,6 @@
 {
     "name" : "jspath",
-    "version" : "0.0.4",
+    "version" : "0.0.9",
     "author" : "Dmitry Filatov <dfilatov@yandex-team.ru>",
     "contributors" : [{
         "name"  : "Dmitry Filatov",
