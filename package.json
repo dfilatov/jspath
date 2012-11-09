@@ -2,10 +2,10 @@
     "name" : "jspath",
     "version" : "0.0.9",
     "author" : "Dmitry Filatov <dfilatov@yandex-team.ru>",
-    "contributors" : [{
-        "name"  : "Dmitry Filatov",
-        "email" : "dfilatov@yandex-team.ru"
-    }],
+    "contributors" : [
+        { "name" : "Dmitry Filatov", "email" : "dfilatov@yandex-team.ru" },
+        { "name" : "Marat Dulin", "email" : "mdevils@gmail.com" }
+    ],
     "repository" : {
         "type" : "git",
         "url"  : "http://github.com/dfilatov/jspath.git"
@@ -15,7 +15,6 @@
         "nodeunit"  : "= 0.7.4",
         "cliff"     : "",
         "benchmark" : ""
-
     },
     "main" : "index",
     "engines" : { "node" : ">= 0.4.0" },
