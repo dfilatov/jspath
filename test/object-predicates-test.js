@@ -1,5 +1,7 @@
 module.exports = [
-    { path : '.{.{.}}', data : 'test', res : ['test'] },
+    { path : '.{.{.}}', data : 'test', res : ['test']},
+    { path : '.{.data}', data : { data : 0 }, res : [{ data : 0 }]},
+    { path : '.{.data}', data : { data : false }, res : [{ data : false }]},
     { path : '.info{.description}', res : [{ description : 'books about javascript', content : 'content' }]},
     { path : '.info{.noexists}', res : []},
     { path : '.books{.favorite}.idx', res : [1, 2]},
