@@ -13,18 +13,35 @@ var cliff = require('cliff'),
             'jsonpath'      : '$.objects[*].categoryId',
             'jspath'        : '.objects.categoryId'
         },
+
         '.objects.hotspots.id' : {
             'no.jpath'      : '.objects.hotspots.id',
             'artjock/jpath' : '.objects.hotspots.id',
             'jsonpath'      : '$.objects[*].hotspots[*].id',
             'jspath'        : '.objects.hotspots.id'
         },
+
+        '.objects{.categoryId}' : {
+            'no.jpath'      : '.objects[.categoryId]',
+            'artjock/jpath' : '.objects[.categoryId]',
+            'jsonpath'      : '$.objects[?(@.categoryId)]',
+            'jspath'        : '.objects{.categoryId}'
+        },
+
         '.objects{.categoryId === "adm"}' : {
             'no.jpath'      : '.objects[.categoryId == "adm"]',
             'artjock/jpath' : '.objects[.categoryId == "adm"]',
             'jsonpath'      : '$.objects[?(@.categoryId == "adm")]',
             'jspath'        : '.objects{.categoryId === "adm"}'
         },
+
+        '.objects{.categoryId === "adm" || .geometry.type === "polygon"}' : {
+            'no.jpath'      : '.objects[.categoryId == "adm" || .geometry.type == "polygon"]',
+            'artjock/jpath' : '.objects[.categoryId == "adm" || .geometry.type == "polygon"]',
+            'jsonpath'      : '$.objects[?(@.categoryId == "adm" || @.geometry.type == "polygon")]',
+            'jspath'        : '.objects{.categoryId === "adm" || .geometry.type === "polygon"}'
+        },
+
         '.objects[10]' : {
             'no.jpath'      : '.objects[10]',
             'artjock/jpath' : '.objects[10]',
