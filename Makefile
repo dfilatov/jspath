@@ -1,7 +1,7 @@
 test:
 	./node_modules/.bin/nodeunit test/test.js
 
-benchmark: parser
-	node benchmarks/parsing.js
+benchmark:
+	node benchmarks/comparison.js
 
 .PHONY: test benchmark
