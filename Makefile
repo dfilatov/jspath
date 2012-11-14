@@ -4,4 +4,7 @@ test:
 benchmark:
 	node benchmarks/comparison.js
 
-.PHONY: test benchmark
+min:
+	node ./node_modules/uglify-js/bin/uglifyjs lib/jspath.js > jspath.min.js
+
+.PHONY: test benchmark min
