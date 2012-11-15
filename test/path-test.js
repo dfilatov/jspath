@@ -10,5 +10,7 @@ module.exports = [
     { path : '.books.author.name', res : ['Robert C. Martin', 'Nicholas C. Zakas', 'Robert C. Martin', 'Douglas Crockford', 'Douglas Crockford']},
     { path : '.info.*', res : ['books about javascript', 'content']},
     { path : '.data', data : [{ data : [1, 2]}, { data : 3}, { data : [4, 5] }, { data : 6 }], res : [1, 2, 3, 4, 5, 6]},
-    { path : '.*', data : [{ data : [1, 2]}, { data : 3}, { data : [4, 5] }, { data : 6 }], res : [1, 2, 3, 4, 5, 6]}
+    { path : '.*', data : [{ data : [1, 2]}, { data : 3}, { data : [4, 5] }, { data : 6 }], res : [1, 2, 3, 4, 5, 6]},
+    { path : '.data.*', data : [{ data : [1, 2]}, { data : [[3, 4]]}, { data : [[[5, 6]]] }], res : [3, 4, [5, 6]]},
+    { path : '.data.*.*', data : [{ data : [1, 2]}, { data : [[3, 4]]}, { data : [[[5, 6]]] }], res : [5, 6]}
 ];
