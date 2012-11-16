@@ -10,10 +10,10 @@ It is heavily optimized both for Node.js and modern browsers.
 Table of Contents
 -----------------
   * [Getting Started](#getting-started)
-    * [In the Node.js](#in-the-nodejs) 
+    * [In the Node.js](#in-the-nodejs)
     * [In the Browsers](#in-the-browsers)
   * [Usage](#usage)
-    * [Quick example](#quick-example) 
+    * [Quick example](#quick-example)
   * [Documentation](#documentation)
     * [Location path](#location-path)
     * [Predicates](#predicates)
@@ -33,7 +33,7 @@ Getting Started
 You can install using Node Package Manager (npm):
 
     npm install jspath
-    
+
 ###In the Browsers###
 ```html
 <script type="text/javascript" src="jspath.min.js"></script>
@@ -92,8 +92,6 @@ Result will be:
 
 Documentation
 -------------
-The result of applying JSPath is always an array.
-
 JSPath expression consists of two type of top-level expressions: location path (required) and predicates (optional).
 
 ###Location path###
@@ -225,10 +223,10 @@ Comparison rules:
   * if both operands to be compared are arrays, then the comparison will be
 true if there is a element in the first array and a element in the
 second array such that the result of performing the comparison of the two elements is true
-  * if one operand is array and another is not, then the comparison will be true if there is element in 
+  * if one operand is array and another is not, then the comparison will be true if there is element in
 array such that the result of performing the comparison of element and another operand is true
   * primitives to be compared as usual javascript primitives
- 
+
 If both operands are strings, also available additional comparison operators:
 ####String comparison operators####
 <table>
@@ -317,7 +315,7 @@ Logical operators convert their operands to boolean values using next rules:
   <tr>
     <td>%</td>
     <td>modulus</td>
-  </tr>  
+  </tr>
 </table>
 
 ####Operator precedence####
@@ -351,17 +349,17 @@ Logical operators convert their operands to boolean values using next rules:
     <td>||</td>
   </tr>
 </table>
-  
+
 Parentheses are used to explicitly denote precedence by grouping parts of an expression that should be evaluated first.
 
 ####Examples####
 ```javascript
-// find all book names whose author is Robert C. Martin
-JSPath.apply('.books{.author.name === "Robert C. Martin"}.name', doc);
+// find all book titles whose author is Robert C. Martin
+JSPath.apply('.books{.author.name === "Robert C. Martin"}.title', doc);
 /* ['Clean Code', 'Agile Software Development'] */
 
-// find all book names with price less than 17
-JSPath.apply('.books{.price < 17}.name', doc);
+// find all book titles with price less than 17
+JSPath.apply('.books{.price < 17}.title', doc);
 /* ['Maintainable JavaScript', 'JavaScript: The Good Parts'] */
 ```
 
@@ -374,31 +372,31 @@ There are four available forms:
   * [ _index_ : ] &mdash; returns items whose index in context is greater or equal to _index_, e.g. [2:] returns items whose index in context is greater or equal to 2
   * [ : _index_ ] &mdash; returns items whose index in context is smaller than _index_, e.g. [:5] returns first five items in context
   * [ _indexFrom_ : _indexTo_ ] &mdash; returns items whose index in context is greater or equal to _indexFrom_ and smaller than _indexTo_, e.g. [2:5] returns three items with indices 2, 3 and 4
-  
+
 Also you can use negative position numbers:
   * [-1] &mdash; returns last item in context
   * [-3:] &mdash; returns last three items in context
 
 ####Examples####
 ```javascript
-// find first book name
-JSPath.apply('.books[0].name', doc);
-/* ['Clean Code'] */
+// find first book title
+JSPath.apply('.books[0].title', doc);
+/* 'Clean Code' */
 
-// find last book name
-JSPath.apply('.books[-1].name', doc);
-/* ['JavaScript: The Good Parts'] */
+// find last book title
+JSPath.apply('.books[-1].title', doc);
+/* 'JavaScript: The Good Parts' */
 
-// find two first book names
-JSPath.apply('.books[:2].name', doc);
+// find two first book titles
+JSPath.apply('.books[:2].title', doc);
 /* ['Clean Code', 'Maintainable JavaScript'] */
 
-// find two last book names
-JSPath.apply('.books[-2:].name', doc);
+// find two last book titles
+JSPath.apply('.books[-2:].title', doc);
 /* ['Agile Software Development', 'JavaScript: The Good Parts'] */
 
-// find two book name from second position
-JSPath.apply('.books[1:3].name', doc);
+// find two book titles from second position
+JSPath.apply('.books[1:3].title', doc);
 /* ['Maintainable JavaScript', 'Agile Software Development'] */
 ```
 
@@ -407,9 +405,9 @@ You can use more than one predicate. The result will contain only the items that
 
 ####Examples####
 ```javascript
-// find first book name whose price less than 15 and greater than 5 
-JSPath.apply('.books{.price < 15}{.price > 5}[0].name', doc);
-/* ['Maintainable JavaScript'] */
+// find first book name whose price less than 15 and greater than 5
+JSPath.apply('.books{.price < 15}{.price > 5}[0].title', doc);
+/* 'Maintainable JavaScript' */
 ```
 
 ###Substitutions###
@@ -417,7 +415,7 @@ Substitutions allows you to use a runtime-evaluated values in predicates.
 
 ####Examples####
 ```javascript
-var path = '.books{.author.name === $author}.name';
+var path = '.books{.author.name === $author}.title';
 
 // find book name whose author Nicholas C. Zakas
 JSPath.apply(path, doc, { author : 'Nicholas C. Zakas' });

@@ -1,4 +1,4 @@
-module.exports = [{
+module.exports = {
     name : 'books and authors',
     info : {
         description : 'books about javascript',
@@ -58,4 +58,4 @@ module.exports = [{
         { name : 'Robert C. Martin' },
         { name : 'John Resig' }
     ]
-}];
+};
