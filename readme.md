@@ -143,7 +143,7 @@ var doc = {
 ```javascript
 // find all books authors
 JSPath.apply('.books.author', doc);
-/* [ { name : 'Robert C. Martin' }, { name : 'Nicholas C. Zakas' }, { name : 'Robert C. Martin' }, { name : 'Douglas Crockford' } ] */
+/* [{ name : 'Robert C. Martin' }, { name : 'Nicholas C. Zakas' }, { name : 'Robert C. Martin' }, { name : 'Douglas Crockford' }] */
 
 // find all books author names
 JSPath.apply('.books.author.name', doc);
@@ -381,11 +381,15 @@ Also you can use negative position numbers:
 ```javascript
 // find first book title
 JSPath.apply('.books[0].title', doc);
+/* ['Clean Code'] */
+
+// find first title of books
+JSPath.apply('.books.title[0]', doc);
 /* 'Clean Code' */
 
 // find last book title
 JSPath.apply('.books[-1].title', doc);
-/* 'JavaScript: The Good Parts' */
+/* ['JavaScript: The Good Parts'] */
 
 // find two first book titles
 JSPath.apply('.books[:2].title', doc);
@@ -407,7 +411,7 @@ You can use more than one predicate. The result will contain only the items that
 ```javascript
 // find first book name whose price less than 15 and greater than 5
 JSPath.apply('.books{.price < 15}{.price > 5}[0].title', doc);
-/* 'Maintainable JavaScript' */
+/* ['Maintainable JavaScript'] */
 ```
 
 ###Substitutions###
