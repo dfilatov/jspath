@@ -10,6 +10,7 @@ var jspath = require('../index'),
             'comparison-operators',
             'arithmetic-operators',
             'logical-expressions',
+            'concat-expressions',
             'undefined-and-null',
             'root',
             'substs'
