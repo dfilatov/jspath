@@ -7,20 +7,20 @@ var cliff = require('cliff'),
     jspath = require('../index'),
     data = JSON.parse(fs.readFileSync(__dirname + '/data.json', 'utf8')),
     tests = {
-        '.objects.categoryId' : {
+        /*'.objects.categoryId' : {
             'no.jpath'      : '.objects.categoryId',
-            'artjock/jpath' : '.objects.categoryId',
-            'jsonpath'      : '$.objects[*].categoryId',
+            //'artjock/jpath' : '.objects.categoryId',
+            //'jsonpath'      : '$.objects[*].categoryId',
             'jspath'        : '.objects.categoryId'
-        },
+        },*/
         '.objects.hotspots.id' : {
             'no.jpath'      : '.objects.hotspots.id',
-            'artjock/jpath' : '.objects.hotspots.id',
-            'jsonpath'      : '$.objects[*].hotspots[*].id',
+          //  'artjock/jpath' : '.objects.hotspots.id',
+            //'jsonpath'      : '$.objects[*].hotspots[*].id',
             'jspath'        : '.objects.hotspots.id'
         },
 
-        '.objects{.categoryId}' : {
+        /*'.objects{.categoryId}' : {
             'no.jpath'      : '.objects[.categoryId]',
             'artjock/jpath' : '.objects[.categoryId]',
             'jsonpath'      : '$.objects[?(@.categoryId)]',
@@ -46,7 +46,7 @@ var cliff = require('cliff'),
             'artjock/jpath' : '.objects[10]',
             'jsonpath'      : '$.objects[10]',
             'jspath'        : '.objects[10]'
-        }
+        } */
     },
     testFns = {
         'no.jpath' : function(path) {
