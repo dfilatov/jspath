@@ -14,6 +14,7 @@
     "dependencies" : {},
     "devDependencies" : {
         "nodeunit"  : "= 0.7.4",
+        "istanbul"  : "",
         "cliff"     : "",
         "benchmark" : "",
         "uglify-js" : ""
@@ -21,6 +22,6 @@
     "main" : "index",
     "engines" : { "node" : ">= 0.4.0" },
     "scripts" : {
-        "test" : "make test"
+        "test" : "./node_modules/istanbul/lib/cli.js test test.js"
     }
 }
