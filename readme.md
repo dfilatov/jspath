@@ -26,6 +26,7 @@ Table of Contents
     * [Positional predicates](#positional-predicates)
     * [Multiple predicates](#multiple-predicates)
     * [Substitutions](#substitutions)
+    * [Result](#result)
 
 Getting Started
 ---------------
@@ -431,3 +432,6 @@ JSPath.apply(path, doc, { author : 'Nicholas C. Zakas' });
 JSPath.apply(path, doc, { author : ['Robert C. Martin', 'Douglas Crockford'] });
 /* ['Clean Code', 'Agile Software Development', 'JavaScript: The Good Parts'] */
 ```
+
+###Result###
+Result of applying JSPath is always an array (empty if nothing found), excluding case when last predicate in top-level expression is positional predicate with the exact index (e.g. [0], [5], [-1]).
