@@ -434,4 +434,5 @@ JSPath.apply(path, doc, { author : ['Robert C. Martin', 'Douglas Crockford'] });
 ```
 
 ###Result###
-Result of applying JSPath is always an array (empty if nothing found), excluding case when last predicate in top-level expression is positional predicate with the exact index (e.g. [0], [5], [-1]).
+Result of applying JSPath is always an array (empty, if nothing found), excluding case when the last predicate in top-level expression is positional predicate with the exact index (e.g. [0], [5], [-1]).
+In this case, result is item at the specified index (accordingly _undefined_, if no item).
