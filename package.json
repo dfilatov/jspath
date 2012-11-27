@@ -1,7 +1,7 @@
 {
     "name" : "jspath",
     "description" : "DSL that enables you to navigate and find data within your JSON documents",
-    "version" : "0.2.4",
+    "version" : "0.2.5",
     "author" : "Dmitry Filatov <dfilatov@yandex-team.ru>",
     "contributors" : [
         { "name" : "Dmitry Filatov", "email" : "dfilatov@yandex-team.ru" },
