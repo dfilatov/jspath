@@ -42,7 +42,7 @@ var testData = require('./data'),
 tests.forEach(function(testItem) {
     exports[++testCounter + '. ' + testItem.path] = function(test) {
         test.deepEqual(
-            jspath.apply(
+            jspath(
                 testItem.path,
                 'data' in testItem? testItem.data : testData,
                 testItem.substs),
@@ -50,6 +50,11 @@ tests.forEach(function(testItem) {
         test.done();
     };
 });
+
+exports[++testCounter + '. jspath.apply should be alias to jspath'] = function(test) {
+    test.strictEqual(jspath, jspath.apply);
+    test.done();
+};
 
 // immutable test
 exports[++testCounter + '. immutable data'] = function(test) {
