@@ -105,7 +105,13 @@ Every location step starts with dot (.) or two dots (..) depending on the item y
   * ..property &mdash; locates property deeply descended from the context items
   * . &mdash; locates the context items itself
 
-Also JSPath allows the wildcard symbol (*) instead of exact name of property.
+You can use the wildcard symbol (*) instead of exact name of property:
+  * .* &mdash; locates all properties immediately descended from the context items
+  * ..* &mdash; locates all properties deeply descended from the context items  
+
+Also JSPath allow to join several properties:
+  * (.property1 | .property2 | .propertyN) &mdash; locates property1, property2, propertyN immediately descended from the context items
+  * or even (.property1 | .property2.property2_1.property2_1_1) &mdash; locates .property1, .property2.property2_1.property2_1_1 items
 
 Your location path can be absolute or relative.
 If location path starts with the root (^) you are using an absolute location path &mdash; your location path begins from the root items.
