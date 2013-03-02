@@ -377,10 +377,10 @@ Positional predicates allows you to filter items by their context position.
 Positional predicates are always embedded in square brackets.
 
 There are four available forms:
-  * [ _index_ ] &mdash; returns _index_-positioned item in context (first item is at index 0), e.g. [3] returns fourth item in context
-  * [ _index_ : ] &mdash; returns items whose index in context is greater or equal to _index_, e.g. [2:] returns items whose index in context is greater or equal to 2
-  * [ : _index_ ] &mdash; returns items whose index in context is smaller than _index_, e.g. [:5] returns first five items in context
-  * [ _indexFrom_ : _indexTo_ ] &mdash; returns items whose index in context is greater or equal to _indexFrom_ and smaller than _indexTo_, e.g. [2:5] returns three items with indices 2, 3 and 4
+  * [ ````index````] &mdash; returns ````index````-positioned item in context (first item is at index 0), e.g. [3] returns fourth item in context
+  * [````index````:] &mdash; returns items whose index in context is greater or equal to ````index````, e.g. [2:] returns items whose index in context is greater or equal to 2
+  * [:````index````] &mdash; returns items whose index in context is smaller than ````index````, e.g. [:5] returns first five items in context
+  * [````indexFrom````:````indexTo````] &mdash; returns items whose index in context is greater or equal to ````indexFrom```` and smaller than ````indexTo````, e.g. [2:5] returns three items with indices 2, 3 and 4
 
 Also you can use negative position numbers:
   * [-1] &mdash; returns last item in context
@@ -441,4 +441,4 @@ JSPath.apply(path, doc, { author : ['Robert C. Martin', 'Douglas Crockford'] });
 
 ###Result###
 Result of applying JSPath is always an array (empty, if nothing found), excluding case when the last predicate in top-level expression is positional predicate with the exact index (e.g. [0], [5], [-1]).
-In this case, result is item at the specified index (accordingly _undefined_, if no item).
+In this case, result is item at the specified index (accordingly ````undefined````, if no item).
