@@ -98,19 +98,19 @@ Documentation
 JSPath expression consists of two type of top-level expressions: location path (required) and predicates (optional).
 
 ###Location path###
-To select a items in JSPath, you use a location path.
+To select items in JSPath, you use a location path.
 A location path consists of one or more location steps.
 Every location step starts with dot (.) or two dots (..) depending on the item you're trying to select:
-  * .property &mdash; locates property immediately descended from the context items
-  * ..property &mdash; locates property deeply descended from the context items
-  * . &mdash; locates the context items itself
+  * .property &mdash; locates property immediately descended from context items
+  * ..property &mdash; locates property deeply descended from context items
+  * . &mdash; locates context items itself
 
 You can use the wildcard symbol (*) instead of exact name of property:
   * .* &mdash; locates all properties immediately descended from the context items
   * ..* &mdash; locates all properties deeply descended from the context items  
 
-Also JSPath allow to join several properties:
-  * (.property1 | .property2 | .propertyN) &mdash; locates property1, property2, propertyN immediately descended from the context items
+Also JSPath allows to join several properties:
+  * (.property1 | .property2 | .propertyN) &mdash; locates property1, property2, propertyN immediately descended from context items
   * or even (.property1 | .property2.property2_1.property2_1_1) &mdash; locates .property1, .property2.property2_1.property2_1_1 items
 
 Your location path can be absolute or relative.
@@ -164,7 +164,7 @@ JSPath.apply('.books..name', doc);
 ```
 
 ###Predicates###
-An JSPath predicate allows you to write very specific rules about the items you'd like to select when constructing your expressions.
+An JSPath predicate allows you to write very specific rules about items you'd like to select when constructing your expressions.
 Predicates are filters that restrict the items selected by an location path. There are two possible type of predicates: object and positional.
 
 ###Object predicates###
@@ -230,8 +230,8 @@ JSPath allows to use in predicate expressions following types of operators:
 
 Comparison rules:
   * if both operands to be compared are arrays, then the comparison will be
-true if there is a element in the first array and a element in the
-second array such that the result of performing the comparison of the two elements is true
+true if there is an element in the first array and an element in the
+second array such that the result of performing the comparison of two elements is true
   * if one operand is array and another is not, then the comparison will be true if there is element in
 array such that the result of performing the comparison of element and another operand is true
   * primitives to be compared as usual javascript primitives
@@ -251,7 +251,7 @@ If both operands are strings, also available additional comparison operators:
   </tr>
   <tr>
     <td>^=</td>
-    <td>Like a '^==' but case insensitive</td>
+    <td>Like the '^==' but case insensitive</td>
     <td>.books{.title ^= "javascript"}</td>
   </tr>
   <tr>
@@ -261,7 +261,7 @@ If both operands are strings, also available additional comparison operators:
   </tr>
   <tr>
     <td>$=</td>
-    <td>Like a '$==' but case insensitive</td>
+    <td>Like the '$==' but case insensitive</td>
     <td>.books{.title $= "javascript"}</td>
   </tr>
   <tr>
@@ -271,7 +271,7 @@ If both operands are strings, also available additional comparison operators:
   </tr>
   <tr>
     <td>*=</td>
-    <td>Like a '*==' but case insensitive</td>
+    <td>Like the '*==' but case insensitive</td>
     <td>.books{.title *= "javascript"}</td>
   </tr>
 </table>
@@ -297,10 +297,10 @@ If both operands are strings, also available additional comparison operators:
 </table>
 
 Logical operators convert their operands to boolean values using next rules:
-  * if operand is array (as you remember result of applying subpath also array):
+  * if operand is array (as you remember result of applying subpath is also array):
     * if length of array greater than zero, result will be true
     * else result will be false
-  * Casting with double NOT (!!) javascript operator used in any other cases.
+  * Casting with double NOT (!!) javascript operator to be used in any other cases.
 
 ####Arithmetic operators####
 
@@ -414,7 +414,7 @@ JSPath.apply('.books[1:3].title', doc);
 ```
 
 ###Multiple predicates###
-You can use more than one predicate. The result will contain only the items that match all the predicates.
+You can use more than one predicate. The result will contain only items that match all the predicates.
 
 ####Examples####
 ```javascript
@@ -424,7 +424,7 @@ JSPath.apply('.books{.price < 15}{.price > 5}[0].title', doc);
 ```
 
 ###Substitutions###
-Substitutions allows you to use a runtime-evaluated values in predicates.
+Substitutions allows you to use runtime-evaluated values in predicates.
 
 ####Examples####
 ```javascript
@@ -440,5 +440,5 @@ JSPath.apply(path, doc, { author : ['Robert C. Martin', 'Douglas Crockford'] });
 ```
 
 ###Result###
-Result of applying JSPath is always an array (empty, if nothing found), excluding case when the last predicate in top-level expression is positional predicate with the exact index (e.g. [0], [5], [-1]).
-In this case, result is item at the specified index (accordingly ````undefined````, if no item).
+Result of applying JSPath is always an array (empty, if found nothing), excluding case when the last predicate in top-level expression is a positional predicate with the exact index (e.g. [0], [5], [-1]).
+In this case, result is an item at the specified index (accordingly ````undefined````, if no item).
