@@ -424,7 +424,7 @@ JSPath.apply('.books{.price < 15}{.price > 5}[0].title', doc);
 ```
 
 ###Substitutions###
-Substitutions allows you to use runtime-evaluated values in predicates.
+Substitutions allow you to use runtime-evaluated values in predicates.
 
 ####Examples####
 ```javascript
@@ -441,4 +441,4 @@ JSPath.apply(path, doc, { author : ['Robert C. Martin', 'Douglas Crockford'] });
 
 ###Result###
 Result of applying JSPath is always an array (empty, if found nothing), excluding case when the last predicate in top-level expression is a positional predicate with the exact index (e.g. [0], [5], [-1]).
-In this case, result is an item at the specified index (accordingly ````undefined````, if no item).
+In this case, result is an item at the specified index (````undefined```` if item hasn't found).
