@@ -39,7 +39,7 @@ You can install using Node Package Manager (npm):
 ```html
 <script type="text/javascript" src="jspath.min.js"></script>
 ```
-Also RequireJS module format supported.
+It also supports RequireJS module format and [YM module](https://github.com/ymaps/modules) format.
 
 JSPath has been tested in IE6+, Mozilla Firefox 3+, Chrome 5+, Safari 5+, Opera 10+.
 
