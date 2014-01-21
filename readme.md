@@ -3,7 +3,7 @@ JSPath [![NPM version](https://badge.fury.io/js/jspath.png)](http://badge.fury.i
 
 JSPath is a domain-specific language (DSL) that enables you to navigate and find data within your JSON documents. Using JSPath, you can select items of JSON in order to retrieve the data they contain.
 
-JSPath for JSON like an XPath for XML.
+JSPath for JSON is like an XPath for XML.
 
 It is heavily optimized both for Node.js and modern browsers.
 
