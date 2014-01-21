@@ -164,8 +164,8 @@ JSPath.apply('.books..name', doc);
 ```
 
 ###Predicates###
-An JSPath predicate allows you to write very specific rules about items you'd like to select when constructing your expressions.
-Predicates are filters that restrict the items selected by an location path. There are two possible type of predicates: object and positional.
+JSPath predicates allows you to write very specific rules about items you'd like to select when constructing your expressions.
+Predicates are filters that restrict the items selected by location path. There're two possible types of predicates: object and positional.
 
 ###Object predicates###
 Object predicates can be used in a path expression to filter a subset of items according to a boolean expressions working on a properties of each item.
@@ -236,7 +236,7 @@ second array such that the result of performing the comparison of two elements i
 array such that the result of performing the comparison of element and another operand is true
   * primitives to be compared as usual javascript primitives
 
-If both operands are strings, also available additional comparison operators:
+If both operands are strings, there're also available additional comparison operators:
 ####String comparison operators####
 <table>
   <tr>
@@ -373,7 +373,7 @@ JSPath.apply('.books{.price < 17}.title', doc);
 ```
 
 ###Positional predicates###
-Positional predicates allows you to filter items by their context position.
+Positional predicates allow you to filter items by their context position.
 Positional predicates are always embedded in square brackets.
 
 There are four available forms:
