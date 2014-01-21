@@ -5,7 +5,7 @@ JSPath is a domain-specific language (DSL) that enables you to navigate and find
 
 JSPath for JSON is like an XPath for XML.
 
-It is heavily optimized both for Node.js and modern browsers.
+It's heavily optimized both for Node.js and modern browsers.
 
 Table of Contents
 -----------------
@@ -164,7 +164,7 @@ JSPath.apply('.books..name', doc);
 ```
 
 ###Predicates###
-JSPath predicates allows you to write very specific rules about items you'd like to select when constructing your expressions.
+JSPath predicates allow you to write very specific rules about items you'd like to select when constructing your expressions.
 Predicates are filters that restrict the items selected by location path. There're two possible types of predicates: object and positional.
 
 ###Object predicates###
