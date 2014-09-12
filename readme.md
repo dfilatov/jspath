@@ -99,7 +99,7 @@ JSPath expression consists of two type of top-level expressions: location path (
 
 ###Location path###
 To select items in JSPath, you use a location path.
-A location path consists of one or more location steps.
+The location path consists of one or more location steps.
 Every location step starts with dot (.) or two dots (..) depending on the item you're trying to select:
   * .property &mdash; locates property immediately descended from context items
   * ..property &mdash; locates property deeply descended from context items
@@ -107,7 +107,10 @@ Every location step starts with dot (.) or two dots (..) depending on the item y
 
 You can use the wildcard symbol (*) instead of exact name of property:
   * .* &mdash; locates all properties immediately descended from the context items
-  * ..* &mdash; locates all properties deeply descended from the context items  
+  * ..* &mdash; locates all properties deeply descended from the context items
+ 
+If you need to locate property containing non-alphanumerical characters, you can use quoted notation:
+  * ."property with non-alphanumerical characters"
 
 Also JSPath allows to join several properties:
   * (.property1 | .property2 | .propertyN) &mdash; locates property1, property2, propertyN immediately descended from context items
