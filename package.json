@@ -1,6 +1,6 @@
 {
     "name" : "jspath",
-    "version" : "0.2.12",
+    "version" : "0.2.13",
     "homepage" : "https://github.com/dfilatov/jspath",
     "description" : "DSL that enables you to navigate and find data within your JSON documents",
     "keywords" : ["json", "path", "filter", "selection", "jspath", "jpath", "jsonpath"],
@@ -19,7 +19,7 @@
         "istanbul"  : "",
         "cliff"     : "",
         "benchmark" : "",
-        "uglify-js" : ""
+        "uglify-js" : "1.3.4"
     },
     "main" : "index",
     "engines" : { "node" : ">= 0.4.0" },
