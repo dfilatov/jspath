@@ -1,0 +1,6 @@
+{
+    "name" : "jspath",
+    "version" : "0.2.13",
+    "main" : "lib/jspath.js",
+    "ignore" : ["**/.*", "node_modules", "benchmarks", "test", "Makefile", "package.json"]
+}
