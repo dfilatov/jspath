@@ -10,5 +10,6 @@ module.exports = [
     { path : '.(.a || .b)', message : 'Unexpected token "||"' },
     { path : '.[:2:]', message : 'Unexpected token ":"' },
     { path : '.[1:2:3]', message : 'Unexpected token ":"' },
-    { path : '.{.2.3}', message : 'Unexpected token "."' }
+    { path : '.{.2.3}', message : 'Unexpected token "."' },
+    { path : '."aaa', message : 'Unexpected end of path' }
 ];
