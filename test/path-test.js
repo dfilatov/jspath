@@ -19,5 +19,5 @@ module.exports = [
     { path : '.data.*', data : [{ data : [1, 2]}, { data : [[3, 4]]}, { data : [[[5, 6]]] }], res : [3, 4, [5, 6]]},
     { path : '.data.*.*', data : [{ data : [1, 2]}, { data : [[3, 4]]}, { data : [[[5, 6]]] }], res : [5, 6]},
     { path : '.data.*', data : { data : 'string' }, res : []},
-    { path : '(.name)', res : ['books and authors']}
+    { path : '((.name))', res : ['books and authors']}
 ];
