@@ -427,7 +427,7 @@ JSPath.apply('.books{.price < 15}{.price > 5}[0].title', doc);
 ```
 
 ###Substitutions###
-Substitutions allow you to use runtime-evaluated values in predicates.
+Substitutions allow you to use runtime-evaluated values in predicates and pathes (as a path root).
 
 ####Examples####
 ```javascript
