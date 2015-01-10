@@ -18,5 +18,6 @@ module.exports = [
     { path : '.books[^.books[3].idx].idx', res : [3]},
     { path : '.books[1].keywords[1:]', res : ['code', 'patterns']},
     { path : '.books.idx[0]', res : 0 },
-    { path : '.books.idx[20]', res : undefined }
+    { path : '.books.idx[20]', res : undefined },
+    { path : '(.name)[0]', res : 'books and authors' }
 ];
