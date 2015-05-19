@@ -15,7 +15,7 @@
     },
     "dependencies" : {},
     "devDependencies" : {
-        "nodeunit"  : "= 0.7.4",
+        "nodeunit"  : "0.9.1",
         "istanbul"  : "",
         "cliff"     : "",
         "benchmark" : "",
