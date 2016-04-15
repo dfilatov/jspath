@@ -31,5 +31,6 @@ module.exports = [
     { path : '.books{.price >= 10}.idx', res : [0, 1, 2, 3, 4]},
     { path : '.books{.oldPrices > .price}.idx', res : [1, 4]},
     { path : '.books{.oldPrices === .price}.idx', res : [1]},
-    { path : '.books{.keywords === "javascript"}.idx', res : [1, 3 ,4]}
+    { path : '.books{.keywords === "javascript"}.idx', res : [1, 3 ,4]},
+    { path : '.books{.keywords === \'javascript\'}.idx', res : [1, 3 ,4]}
 ];

@@ -10,6 +10,7 @@ module.exports = [
     { path : '.name', res : ['books and authors']},
     { path : '.noexists', res : []},
     { path : '."test.test"', data : { 'test.test' : 'test' }, res : ['test']},
+    { path : '.\'test.test\'', data : { 'test.test' : 'test' }, res : ['test']},
     { path : '."te\\"st"', data : { 'te"st' : 'test' }, res : ['test']},
     { path : '.authors.name', res : ['Nicholas C. Zakas', 'Douglas Crockford', 'Robert C. Martin', 'John Resig']},
     { path : '.books.author.name', res : ['Robert C. Martin', 'Nicholas C. Zakas', 'Robert C. Martin', 'Douglas Crockford', 'Douglas Crockford']},
