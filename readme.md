@@ -171,7 +171,7 @@ JSPath predicates allow you to write very specific rules about items you'd like 
 Predicates are filters that restrict the items selected by location path. There're two possible types of predicates: object and positional.
 
 ###Object predicates###
-Object predicates can be used in a path expression to filter a subset of items according to a boolean expressions working on a properties of each item.
+Object predicates can be used in a path expression to filter a subset of items according to boolean expressions working on a properties of each item.
 Object predicates are embedded in braces.
 
 Basic expressions in object predicates:
@@ -300,7 +300,7 @@ If both operands are strings, there're also available additional comparison oper
 </table>
 
 Logical operators convert their operands to boolean values using next rules:
-  * if operand is array (as you remember result of applying subpath is also array):
+  * if operand is an array (as you remember result of applying subpath is also array):
     * if length of array greater than zero, result will be true
     * else result will be false
   * Casting with double NOT (!!) javascript operator to be used in any other cases.
@@ -443,5 +443,5 @@ JSPath.apply(path, doc, { author : ['Robert C. Martin', 'Douglas Crockford'] });
 ```
 
 ###Result###
-Result of applying JSPath is always an array (empty, if found nothing), excluding case when the last predicate in top-level expression is a positional predicate with the exact index (e.g. [0], [5], [-1]).
+Result of applying JSPath is always an array (empty, if found nothing), excluding the case when the last predicate in top-level expression is a positional predicate with the exact index (e.g. [0], [5], [-1]).
 In this case, result is an item at the specified index (````undefined```` if item hasn't found).
