@@ -1,9 +1,9 @@
 JSPath [![NPM version](https://badge.fury.io/js/jspath.png)](http://badge.fury.io/js/jspath) [![Build Status](https://secure.travis-ci.org/dfilatov/jspath.png)](http://travis-ci.org/dfilatov/jspath)
 ============
 
-JSPath is a domain-specific language (DSL) that enables you to navigate and find data within your JSON documents. Using JSPath, you can select items of JSON in order to retrieve the data they contain.
+JSPath is a [domain-specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) that enables you to navigate and find data within your JSON documents. Using JSPath, you can select items of JSON in order to retrieve the data they contain.
 
-JSPath for JSON is like an XPath for XML.
+JSPath for JSON is like [XPath](https://en.wikipedia.org/wiki/XPath) for XML.
 
 It's heavily optimized both for Node.js and modern browsers.
 
@@ -46,32 +46,15 @@ JSPath has been tested in IE6+, Mozilla Firefox 3+, Chrome 5+, Safari 5+, Opera 
 Usage
 -----
 ```javascript
-JSPath.apply(path, json);
-// or
-JSPath.apply(path, json, substs);
+JSPath.apply(path, json [, substs]);
 ```
 where:
-<table>
-  <tr>
-    <th></th>
-    <th>type</th>
-    <th>description</th>
-  <tr>
-    <td>path</td>
-    <td>String</td>
-    <td>path expression</td>
-  </tr>
-  <tr>
-    <td>json</td>
-    <td>any valid JSON</td>
-    <td>input JSON document</td>
-  </tr>
-  <tr>
-    <td>substs</td>
-    <td>Object</td>
-    <td>substitutions (optional)</td>
-  </tr>
-</table>
+
+parameter     |   data type        | description
+------------- |   -------------    | -------------
+`path`        | String             | path expression
+`json`        | any valid JSON     | input JSON document
+`substs`      | JavaScript Object  | substitutions (*optional*)
 
 ###Quick example###
 ```javascript
@@ -95,31 +78,59 @@ Result will be:
 
 Documentation
 -------------
-JSPath expression consists of two type of top-level expressions: location path (required) and predicates (optional).
+A JSPath expression consists of two types of top-level expressions:
+ 
+ 1. the required *location path* and
+ 2. one or more optional *predicates*
+
+This means, a path expression like
+
+```javascript
+.automobiles{.maker === "Honda" && .year > 2009}.model
+```
+
+can be split into
+
+the location path |  one predicate                           | and the continued location path 
+-------------     | -------------                            |  ------------- 
+`.automobiles`    |  `{.maker === "Honda" && .year > 2009}`  | `.model`
 
 ###Location path###
-To select items in JSPath, you use a location path.
-The location path consists of one or more location steps.
-Every location step starts with dot (.) or two dots (..) depending on the item you're trying to select:
-  * .property &mdash; locates property immediately descended from context items
-  * ..property &mdash; locates property deeply descended from context items
-  * . &mdash; locates context items itself
+To select items in JSPath, you use a location path which consists of one or more location steps.
 
-You can use the wildcard symbol (*) instead of exact name of property:
-  * .* &mdash; locates all properties immediately descended from the context items
-  * ..* &mdash; locates all properties deeply descended from the context items
+Every location step starts with one period (`.`) or two periods (`..`), depending on the item you're trying to select:
+
+location step |  description                        
+------------- | -------------
+`.property`   | locates property immediately descended from context items
+`..property`  | locates property deeply descended from context items
+`.`           | locates context items itself
+
+You can use the wildcard symbol (`*`) instead of exact name of property:
+
+location step |  description                        
+------------- | -------------
+`.*`          | locates all properties immediately descended from the context items
+`..*`         | locates all properties deeply descended from the context items
  
-If you need to locate property containing non-alphanumerical characters, you can use quoted notation:
-  * ."property with non-alphanumerical characters"
+If you need to locate property containing non-alphanumerical characters, you have to quote the it:
+
+location step                                      |  description
+-------------                                      | -------------
+`."property with non-alphanumerical characters"`   | locates a property ontaining non-alphanumerical characters
 
 Also JSPath allows to join several properties:
-  * (.property1 | .property2 | .propertyN) &mdash; locates property1, property2, propertyN immediately descended from context items
-  * or even (.property1 | .property2.property2_1.property2_1_1) &mdash; locates .property1, .property2.property2_1.property2_1_1 items
 
-Your location path can be absolute or relative.
-If location path starts with the root (^) you are using an absolute location path &mdash; your location path begins from the root items.
+location step                                          |  description
+-------------                                          | -------------
+`(.property1 | .property2 | .propertyN)`               | locates `property1`, `property2`, `propertyN` immediately descended from context items
+`(.property1 | .property2.property2_1.property2_1_1)`  | locates `.property1`, `.property2.property2_1.property2_1_1` immediately descended from context items
+
+Location paths can be absolute or relative.
+If location path starts with the caret (`^`) you are using an absolute location path. This syntax is used to locate a property when another context is already used in the location path and_or the object predicates.
 
 Consider the following JSON:
+
 ```javascript
 var doc = {
     "books" : [
