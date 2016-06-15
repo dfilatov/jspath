@@ -222,7 +222,7 @@ If both operands are strings, there're also available additional comparison oper
 operator      |  description                                  | example                 
 ------------- | -------------                                 | -------------
 `==`          | Returns is `true` if both strings are equal   | `.books{.title == "clean code"}`
-`^==`         | Case sensitive, returns `true` if the left operand starts with the right operand  | `.books{.title ^== "Javascript"}`
+`^==`         | Case sensitive. Returns `true` if the left operand starts with the right operand  | `.books{.title ^== "Javascript"}`
 `^=`          | Case insensitive. Returns `true` if the left operand starts with the right operand  | `.books{.title ^= "javascript"}`
 `$==`         | Case sensitive. Returns `true` if left operand ends with the right operand  | `.books{.title $== "Javascript"}`
 `$=`          | Case insensitive. Returns `true` if left operand ends with the right operand    | `.books{.title $= "javascript"}`
@@ -231,88 +231,40 @@ operator      |  description                                  | example
 
 ####Logical operators####
 
-<table>
-  <tr>
-    <td>&&</td>
-    <td>Returns true if both operands are true</td>
-    <td>.books{.price > 19 && .author.name === "Robert C. Martin"}</td>
-  </tr>
-  <tr>
-    <td>||</td>
-    <td>Returns true if either operand is true</td>
-    <td>.books{.title === "Maintainable JavaScript" || .title === "Clean Code"}</td>
-  </tr>
-  <tr>
-    <td>!</td>
-    <td>Returns true if operand is false</td>
-    <td>.books{!.title}</td>
-  </tr>
-</table>
+operator      |  description                                  | example                 
+------------- | -------------                                 | -------------
+`&&`          | Returns `true` if both operands are `true`   | `.books{.price > 19 && .author.name === "Robert C. Martin"}`
+`||`          | Returns `true` if either or both operands are `true`  	  | `.books{.title === "Maintainable JavaScript" || .title === "Clean Code"}`
+`!`          | Returns `true` if operand is false 	 | `.books{!.title}`
 
-Logical operators convert their operands to boolean values using next rules:
-  * if operand is an array (as you remember result of applying subpath is also array):
-    * if length of array greater than zero, result will be true
-    * else result will be false
-  * Casting with double NOT (!!) javascript operator to be used in any other cases.
+In JSPath logical operators convert their operands to boolean values using following rules:
+
+  * if an operand is an array with a length greater than `0`, the result will be `true` else `false`
+  * a casting with double NOT javascript operator (`!!`) is used in any other cases
 
 ####Arithmetic operators####
 
-<table>
-  <tr>
-    <td>+</td>
-    <td>addition</td>
-  </tr>
-  <tr>
-    <td>-</td>
-    <td>subtraction</td>
-  </tr>
-  <tr>
-    <td>*</td>
-    <td>multiplication</td>
-  </tr>
-  <tr>
-    <td>/</td>
-    <td>division</td>
-  </tr>
-  <tr>
-    <td>%</td>
-    <td>modulus</td>
-  </tr>
-</table>
+operator      |  description              
+------------- | ------------- 
+`+`          | addition        
+`-`          | subtraction  	  
+`*`          | multiplication 	
+`/`          | multiplication  
+`%`          | modulus  
 
 ####Operator precedence####
-<table>
-  <tr>
-    <td>1 (top)</td>
-    <td>! -<sup>unary</sup></td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>* / %</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>+ -<sup>binary</sup></td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>< <= > >=</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>== === != !== ^= ^== $== $= *= *==</td>
-  </tr>
-  <tr>
-    <td>6</td>
-    <td>&&</td>
-  </tr>
-  <tr>
-    <td>7</td>
-    <td>||</td>
-  </tr>
-</table>
 
-Parentheses are used to explicitly denote precedence by grouping parts of an expression that should be evaluated first.
+precedence    |  pperator              
+------------- | ------------- 
+1 (highest)   | `!`, unary `-`       
+2             | `*`, `/`, `%`  	  
+3             | `+`, binary `-`  	
+4             | `<, `<=`, `>`, `>=`  
+5             | `==`, `===`, `!=`, `!==`, `^=`, `^==`, `$==`, `$=`, `*=`, `*==`  
+6             | `&&`
+7 (lowest )   | `||`
+
+Parentheses (`(` and `)`) are used to explicitly denote precedence by grouping parts of an expression that should be evaluated first.
 
 ####Examples####
 ```javascript
