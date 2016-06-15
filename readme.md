@@ -26,7 +26,7 @@ Table of Contents
     * [Positional predicates](#positional-predicates)
     * [Multiple predicates](#multiple-predicates)
     * [Substitutions](#substitutions)
-    * [Result](#result)
+    * [Result](#result) 
 
 Getting Started
 ---------------
