@@ -52,7 +52,7 @@ where:
 
 parameter     |   data type        | description
 ------------- |   -------------    | -------------
-`path`        | String             | [path expression](#documentation)
+`path`        | string             | [path expression](#documentation)
 `json`        | any valid JSON     | input JSON document
 `substs`      | JavaScript Object  | [substitutions (*optional*)](#substitutions)
 
@@ -199,14 +199,14 @@ Furthermore are following types of operators valide inside an object predicate:
 
 operator      |  description                                  | example                 
 ------------- | -------------                                 | -------------
-`==`          | Returns is `true` if both operands are equal    | `.books{.id == "1"}`
-`===`         | Returns `true` if both operands are strictly equal with no type conversion   | `.books{.id === 1}`
-`!=`          | Returns `true` if the operands are not equal    | `.books{.id != "1"}`
-`!==`         | Returns `true` if the operands are not equal and_or not of the same data type  | `.books{.id !== 1}`
-`>`           | Returns `true` if the left operand is greater than the right operand    | `.books{.id > 1}`
-`>=`          | Returns `true` if the left operand is greater than or equal to the right operand  | `.books{.id >= 1}`
-`<`           | Returns `true` if the left operand is smaller than the right operand    | `.books{.id < 1}`
-`<=`          | Returns `true` if the left operand is smaller than or equal to the right operand  | `.books{.id <= 1}`
+`==`          | returns is `true` if both operands are equal    | `.books{.id == "1"}`
+`===`         | returns `true` if both operands are strictly equal with no type conversion   | `.books{.id === 1}`
+`!=`          | returns `true` if the operands are not equal    | `.books{.id != "1"}`
+`!==`         | returns `true` if the operands are not equal and_or not of the same data type  | `.books{.id !== 1}`
+`>`           | returns `true` if the left operand is greater than the right operand    | `.books{.id > 1}`
+`>=`          | returns `true` if the left operand is greater than or equal to the right operand  | `.books{.id >= 1}`
+`<`           | returns `true` if the left operand is smaller than the right operand    | `.books{.id < 1}`
+`<=`          | returns `true` if the left operand is smaller than or equal to the right operand  | `.books{.id <= 1}`
 
 JSPath uses the following rules to compare arrays and objects of different types:
   * if both operands to be compared are arrays, then the comparison will be
@@ -221,21 +221,21 @@ If both operands are strings, there're also available additional comparison oper
 
 operator      |  description                                  | example                 
 ------------- | -------------                                 | -------------
-`==`          | Returns is `true` if both strings are equal   | `.books{.title == "clean code"}`
-`^==`         | Case sensitive. Returns `true` if the left operand starts with the right operand  | `.books{.title ^== "Javascript"}`
-`^=`          | Case insensitive. Returns `true` if the left operand starts with the right operand  | `.books{.title ^= "javascript"}`
-`$==`         | Case sensitive. Returns `true` if left operand ends with the right operand  | `.books{.title $== "Javascript"}`
-`$=`          | Case insensitive. Returns `true` if left operand ends with the right operand    | `.books{.title $= "javascript"}`
-`*==`          | Case sensitive. Returns `true` if left operand contains right operand  | `.books{.title *== "Javascript"}`
-`*=`           | Case insensitive. Returns `true` if left operand contains right operand    | `.books{.title *= "javascript"}`
+`==`          | returns is `true` if both strings are equal   | `.books{.title == "clean code"}`
+`^==`         | case sensitive. Returns `true` if the left operand starts with the right operand  | `.books{.title ^== "Javascript"}`
+`^=`          | case insensitive. Returns `true` if the left operand starts with the right operand  | `.books{.title ^= "javascript"}`
+`$==`         | case sensitive. Returns `true` if left operand ends with the right operand  | `.books{.title $== "Javascript"}`
+`$=`          | case insensitive. Returns `true` if left operand ends with the right operand    | `.books{.title $= "javascript"}`
+`*==`          | case sensitive. Returns `true` if left operand contains right operand  | `.books{.title *== "Javascript"}`
+`*=`           | case insensitive. Returns `true` if left operand contains right operand    | `.books{.title *= "javascript"}`
 
 ####Logical operators####
 
 operator      |  description                                  | example                 
 ------------- | -------------                                 | -------------
-`&&`          | Returns `true` if both operands are `true`   | `.books{.price > 19 && .author.name === "Robert C. Martin"}`
-`||`          | Returns `true` if either or both operands are `true`  	  | `.books{.title === "Maintainable JavaScript" || .title === "Clean Code"}`
-`!`          | Returns `true` if operand is false 	 | `.books{!.title}`
+`&&`          | returns `true` if both operands are `true`   | `.books{.price > 19 && .author.name === "Robert C. Martin"}`
+`||`          | returns `true` if either or both operands are `true`  	  | `.books{.title === "Maintainable JavaScript" || .title === "Clean Code"}`
+`!`          | returns `true` if operand is false 	 | `.books{!.title}`
 
 In JSPath logical operators convert their operands to boolean values using following rules:
 
