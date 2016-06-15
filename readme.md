@@ -46,15 +46,15 @@ JSPath has been tested in IE6+, Mozilla Firefox 3+, Chrome 5+, Safari 5+, Opera 
 Usage
 -----
 ```javascript
-JSPath.apply(path, json [, substs]);
+JSPath.apply(path, json[, substs]);
 ```
 where:
 
 parameter     |   data type        | description
 ------------- |   -------------    | -------------
-`path`        | String             | path expression
+`path`        | String             | [path expression](#documentation)
 `json`        | any valid JSON     | input JSON document
-`substs`      | JavaScript Object  | substitutions (*optional*)
+`substs`      | JavaScript Object  | [substitutions (*optional*)](#substitutions)
 
 ###Quick example###
 ```javascript
@@ -78,10 +78,10 @@ Result will be:
 
 Documentation
 -------------
-A JSPath expression consists of two types of top-level expressions:
+A JSPath path expression consists of two types of top-level expressions:
  
- 1. the required *location path* and
- 2. one or more optional *predicates*
+ 1. the required [location path](#location-path) and
+ 2. one or more optional [predicates](#predicates)
 
 This means, a path expression like
 
@@ -178,71 +178,37 @@ JSPath.apply('.books..name', doc);
 ```
 
 ###Predicates###
-JSPath predicates allow you to write very specific rules about items you'd like to select when constructing your expressions.
-Predicates are filters that restrict the items selected by location path. There're two possible types of predicates: object and positional.
+JSPath predicates allow you to write very specific rules about items you'd like to select when constructing your path expression. Predicates are filters that restrict the items selected by the location path. There're two possible types of predicates: [object](#object-predicates) and [positional predicates](#positional-predicates).
 
 ###Object predicates###
-Object predicates can be used in a path expression to filter a subset of items according to boolean expressions working on a properties of each item.
-Object predicates are embedded in braces.
+Object predicates can be used in a path expression to filter a subset of items according to boolean expressions working on a properties of each item. All object predicates are parenthesized by curly brackets (`{` and `}`).
 
-Basic expressions in object predicates:
-  * numeric literals (e.g. 1.23)
-  * string literals (e.g. "John Gold")
-  * boolean literals (true/false)
-  * subpathes (e.g. .nestedProp.deeplyNestedProp)
+In JSPath these basic expressions can be used inside an object predicate:
+  * numeric literals (e.g. `1.23`)
+  * string literals (e.g. `"John Gold"`)
+  * boolean literals (`true` and `false`)
+  * subpathes (e.g. `.nestedProp.deeplyNestedProp`)
 
-JSPath allows to use in predicate expressions following types of operators:
-  * comparison operators
-  * string comparison operators
-  * logical operators
-  * arithmetic operators
+Furthermore are following types of operators valide inside an object predicate:
+  * [comparison operators](#comparison-operators)
+  * [string comparison operators](#string-comparison-operators)
+  * [logical operators](#logical-operators)
+  * [arithmetic operators](#arithmetic-operators)
 
 ####Comparison operators####
 
-<table>
-  <tr>
-    <td>==</td>
-    <td>Returns is true if both operands are equal</td>
-    <td>.books{.id == "1"}</td>
-  </tr>
-  <tr>
-    <td>===</td>
-    <td>Returns true if both operands are strictly equal with no type conversion</td>
-    <td>.books{.id === 1}</td>
-  </tr>
-  <tr>
-    <td>!=</td>
-    <td>Returns true if the operands are not equal</td>
-    <td>.books{.id != "1"}</td>
-  </tr>
-  <tr>
-    <td>!==</td>
-    <td>Returns true if the operands are not equal and/or not of the same type</td>
-    <td>.books{.id !== 1}</td>
-  </tr>
-  <tr>
-    <td>></td>
-    <td>Returns true if the left operand is greater than the right operand</td>
-    <td>.books{.id > 1}</td>
-  </tr>
-  <tr>
-    <td>>=</td>
-    <td>Returns true if the left operand is greater than or equal to the right operand</td>
-    <td>.books{.id >= 1}</td>
-  </tr>
-  <tr>
-    <td>&lt;</td>
-    <td>Returns true if the left operand is less than the right operand</td>
-    <td>.books{.id &lt; 1}</td>
-  </tr>
-  <tr>
-    <td>&lt;=</td>
-    <td>Returns true if the left operand is less than or equal to the right operand</td>
-    <td>.books{.id &lt;= 1}</td>
-  </tr>
-</table>
+operator      |  description                                  | example                 
+------------- | -------------                                 | -------------
+`==`          | Returns is `true` if both operands are equal    | `.books{.id == "1"}`
+`===`         | Returns `true` if both operands are strictly equal with no type conversion   | `.books{.id === 1}`
+`!=`          | Returns `true` if the operands are not equal    | `.books{.id != "1"}`
+`!==`         | Returns `true` if the operands are not equal and_or not of the same data type  | `.books{.id !== 1}`
+`>`           | Returns `true` if the left operand is greater than the right operand    | `.books{.id > 1}`
+`>=`          | Returns `true` if the left operand is greater than or equal to the right operand  | `.books{.id >= 1}`
+`<`           | Returns `true` if the left operand is smaller than the right operand    | `.books{.id < 1}`
+`<=`          | Returns `true` if the left operand is smaller than or equal to the right operand  | `.books{.id <= 1}`
 
-Comparison rules:
+JSPath uses the following rules to compare arrays and objects of different types:
   * if both operands to be compared are arrays, then the comparison will be
 true if there is an element in the first array and an element in the
 second array such that the result of performing the comparison of two elements is true
@@ -250,45 +216,18 @@ second array such that the result of performing the comparison of two elements i
 array such that the result of performing the comparison of element and another operand is true
   * primitives to be compared as usual javascript primitives
 
-If both operands are strings, there're also available additional comparison operators:
 ####String comparison operators####
-<table>
-  <tr>
-    <td>==</td>
-    <td>Like an usual '==' but case insensitive</td>
-    <td>.books{.title == "clean code"}</td>
-  </tr>
-  <tr>
-    <td>^==</td>
-    <td>Returns true if left operand value beginning with right operand value</td>
-    <td>.books{.title ^== "Javascript"}</td>
-  </tr>
-  <tr>
-    <td>^=</td>
-    <td>Like the '^==' but case insensitive</td>
-    <td>.books{.title ^= "javascript"}</td>
-  </tr>
-  <tr>
-    <td>$==</td>
-    <td>Returns true if left operand value ending with right operand value</td>
-    <td>.books{.title $== "Javascript"}</td>
-  </tr>
-  <tr>
-    <td>$=</td>
-    <td>Like the '$==' but case insensitive</td>
-    <td>.books{.title $= "javascript"}</td>
-  </tr>
-  <tr>
-    <td>*==</td>
-    <td>Returns true if left operand value contains right operand value</td>
-    <td>.books{.title *== "Javascript"}</td>
-  </tr>
-  <tr>
-    <td>*=</td>
-    <td>Like the '*==' but case insensitive</td>
-    <td>.books{.title *= "javascript"}</td>
-  </tr>
-</table>
+If both operands are strings, there're also available additional comparison operators:
+
+operator      |  description                                  | example                 
+------------- | -------------                                 | -------------
+`==`          | Returns is `true` if both strings are equal   | `.books{.title == "clean code"}`
+`^==`         | Case sensitive, returns `true` if the left operand starts with the right operand  | `.books{.title ^== "Javascript"}`
+`^=`          | Case insensitive. Returns `true` if the left operand starts with the right operand  | `.books{.title ^= "javascript"}`
+`$==`         | Case sensitive. Returns `true` if left operand ends with the right operand  | `.books{.title $== "Javascript"}`
+`$=`          | Case insensitive. Returns `true` if left operand ends with the right operand    | `.books{.title $= "javascript"}`
+`*==`          | Case sensitive. Returns `true` if left operand contains right operand  | `.books{.title *== "Javascript"}`
+`*=`           | Case insensitive. Returns `true` if left operand contains right operand    | `.books{.title *= "javascript"}`
 
 ####Logical operators####
 
