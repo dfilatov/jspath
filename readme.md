@@ -259,7 +259,7 @@ precedence    |  pperator
 1 (highest)   | `!`, unary `-`       
 2             | `*`, `/`, `%`  	  
 3             | `+`, binary `-`  	
-4             | `<, `<=`, `>`, `>=`  
+4             | `<`, `<=`, `>`, `>=`  
 5             | `==`, `===`, `!=`, `!==`, `^=`, `^==`, `$==`, `$=`, `*=`, `*==`  
 6             | `&&`
 7 (lowest )   | `||`
@@ -278,18 +278,24 @@ JSPath.apply('.books{.price < 17}.title', doc);
 ```
 
 ###Positional predicates###
-Positional predicates allow you to filter items by their context position.
-Positional predicates are always embedded in square brackets.
+Positional predicates allow you to filter items by their context position. All positional predicates are parenthesized by square brackets (`[` and `]`).
 
-There are four available forms:
-  * [ ````index````] &mdash; returns ````index````-positioned item in context (first item is at index 0), e.g. [3] returns fourth item in context
-  * [````index````:] &mdash; returns items whose index in context is greater or equal to ````index````, e.g. [2:] returns items whose index in context is greater or equal to 2
-  * [:````index````] &mdash; returns items whose index in context is smaller than ````index````, e.g. [:5] returns first five items in context
-  * [````indexFrom````:````indexTo````] &mdash; returns items whose index in context is greater or equal to ````indexFrom```` and smaller than ````indexTo````, e.g. [2:5] returns three items with indices 2, 3 and 4
+There are four typs of positional predicates in JSPath also known as slicing methods:
 
-Also you can use negative position numbers:
-  * [-1] &mdash; returns last item in context
-  * [-3:] &mdash; returns last three items in context
+operator      |  description                                  | example                 
+------------- | -------------                                 | -------------
+`[postion]`     | returns item in context on index `postion` (first item is at index `0`)    | `[3]` returns fourth item in context
+`[start:]`    | returns range of items whose index in context is greater or equal to `start`   |  `[2:]` returns items whose index is greater or equal to `2`
+`[:end]`    | returns range of items whose index in context is smaller than `end`    | `[:5]` returns first five items in context
+`[strat:end]`         | returns range of items whose index in context is greater or equal to `strat` and smaller than `end` | `[2:5]` returns three items on the indices `2`, `3` and `4`
+
+The `postion`, `start` or `end` index may be a negative number, which means it counts from the end of the array instead of the beginning:
+
+example      |  description 
+------------- | ------------- 
+`[-1]`     | returns last item in context
+`[-3:]`    | returns last three items in context
+
 
 ####Examples####
 ```javascript
@@ -319,7 +325,7 @@ JSPath.apply('.books[1:3].title', doc);
 ```
 
 ###Multiple predicates###
-You can use more than one predicate. The result will contain only items that match all the predicates.
+You can use more than one predicate — any combination of [object](#object-predicates) and [positional predicates](#positional-predicates). The result will contain only items that match all predicates.
 
 ####Examples####
 ```javascript
@@ -345,5 +351,5 @@ JSPath.apply(path, doc, { author : ['Robert C. Martin', 'Douglas Crockford'] });
 ```
 
 ###Result###
-Result of applying JSPath is always an array (empty, if found nothing), excluding the case when the last predicate in top-level expression is a positional predicate with the exact index (e.g. [0], [5], [-1]).
-In this case, result is an item at the specified index (````undefined```` if item hasn't found).
+If the last predicate in an expression is a positional predicate with an index (e.g. `[0]`, `[5]`, `[-1]`), the result is the item at the specified index or `undefined` if the index is out of range.
+In any other cases the result of applying JSPath is always an array — empty (`[]`), if found nothing. 
