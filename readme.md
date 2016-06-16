@@ -54,7 +54,7 @@ parameter     |   data type        | description
 ------------- |   -------------    | -------------
 `path`        | string             | [path expression](#documentation)
 `json`        | any valid JSON     | input JSON document
-`substs`      | JavaScript Object  | [substitutions (*optional*)](#substitutions)
+`substs`      | object             | [substitutions (*optional*)](#substitutions)
 
 ###Quick example###
 ```javascript
@@ -113,7 +113,7 @@ location step |  description
 `.*`          | locates all properties immediately descended from the context items
 `..*`         | locates all properties deeply descended from the context items
  
-If you need to locate property containing non-alphanumerical characters, you have to quote the it:
+If you need to locate properties containing non-alphanumerical characters, you have to quote them:
 
 location step                                      |  description
 -------------                                      | -------------
@@ -189,7 +189,7 @@ In JSPath these basic expressions can be used inside an object predicate:
   * boolean literals (`true` and `false`)
   * subpathes (e.g. `.nestedProp.deeplyNestedProp`)
 
-Furthermore are following types of operators valide inside an object predicate:
+Furthermore, the following types of operators are a valide inside an object predicate:
   * [comparison operators](#comparison-operators)
   * [string comparison operators](#string-comparison-operators)
   * [logical operators](#logical-operators)
@@ -199,7 +199,7 @@ Furthermore are following types of operators valide inside an object predicate:
 
 operator      |  description                                  | example                 
 ------------- | -------------                                 | -------------
-`==`          | returns is `true` if both operands are equal    | `.books{.id == "1"}`
+`==`          | returns `true` if both operands are equal     | `.books{.id == "1"}`
 `===`         | returns `true` if both operands are strictly equal with no type conversion   | `.books{.id === 1}`
 `!=`          | returns `true` if the operands are not equal    | `.books{.id != "1"}`
 `!==`         | returns `true` if the operands are not equal and_or not of the same data type  | `.books{.id !== 1}`
@@ -249,7 +249,7 @@ operator      |  description
 `+`          | addition        
 `-`          | subtraction  	  
 `*`          | multiplication 	
-`/`          | multiplication  
+`/`          | division  
 `%`          | modulus  
 
 ####Operator precedence####
@@ -280,11 +280,11 @@ JSPath.apply('.books{.price < 17}.title', doc);
 ###Positional predicates###
 Positional predicates allow you to filter items by their context position. All positional predicates are parenthesized by square brackets (`[` and `]`).
 
-There are four typs of positional predicates in JSPath also known as slicing methods:
+JSPath supports four types of positional predicates – also known as slicing methods:
 
 operator      |  description                                  | example                 
 ------------- | -------------                                 | -------------
-`[postion]`     | returns item in context on index `postion` (first item is at index `0`)    | `[3]` returns fourth item in context
+`[position]`  | returns item in context on index `position` (first item is at index `0`)    | `[3]` returns fourth item in context
 `[start:]`    | returns range of items whose index in context is greater or equal to `start`   |  `[2:]` returns items whose index is greater or equal to `2`
 `[:end]`    | returns range of items whose index in context is smaller than `end`    | `[:5]` returns first five items in context
 `[strat:end]`         | returns range of items whose index in context is greater or equal to `strat` and smaller than `end` | `[2:5]` returns three items on the indices `2`, `3` and `4`
@@ -325,7 +325,7 @@ JSPath.apply('.books[1:3].title', doc);
 ```
 
 ###Multiple predicates###
-You can use more than one predicate — any combination of [object](#object-predicates) and [positional predicates](#positional-predicates). The result will contain only items that match all predicates.
+You can use more than one predicate – any combination of [object](#object-predicates) and [positional predicates](#positional-predicates). The result will contain only items that match all predicates.
 
 ####Examples####
 ```javascript
@@ -352,4 +352,4 @@ JSPath.apply(path, doc, { author : ['Robert C. Martin', 'Douglas Crockford'] });
 
 ###Result###
 If the last predicate in an expression is a positional predicate with an index (e.g. `[0]`, `[5]`, `[-1]`), the result is the item at the specified index or `undefined` if the index is out of range.
-In any other cases the result of applying JSPath is always an array — empty (`[]`), if found nothing. 
+In any other cases the result of applying JSPath is always an array – empty (`[]`), if found nothing. 
