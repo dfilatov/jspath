@@ -189,7 +189,7 @@ In JSPath these basic expressions can be used inside an object predicate:
   * boolean literals (`true` and `false`)
   * subpathes (e.g. `.nestedProp.deeplyNestedProp`)
 
-Furthermore, the following types of operators are a valide inside an object predicate:
+Furthermore, the following types of operators are valide inside an object predicate:
   * [comparison operators](#comparison-operators)
   * [string comparison operators](#string-comparison-operators)
   * [logical operators](#logical-operators)
