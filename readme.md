@@ -254,7 +254,7 @@ operator      |  description
 
 ####Operator precedence####
 
-precedence    |  pperator              
+precedence    |  operator              
 ------------- | ------------- 
 1 (highest)   | `!`, unary `-`       
 2             | `*`, `/`, `%`  	  
