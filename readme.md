@@ -127,7 +127,7 @@ location step                                          |  description
 `(.property1 | .property2.property2_1.property2_1_1)`  | locates `.property1`, `.property2.property2_1.property2_1_1` immediately descended from context items
 
 Location paths can be absolute or relative.
-If location path starts with the caret (`^`) you are using an absolute location path. This syntax is used to locate a property when another context is already used in the location path and_or the object predicates.
+If location path starts with the caret (`^`) you are using an absolute location path. This syntax is used to locate a property when another context is already used in the location path and/or the object predicates.
 
 Consider the following JSON:
 
@@ -221,13 +221,13 @@ If both operands are strings, there're also available additional comparison oper
 
 operator      |  description                                  | example                 
 ------------- | -------------                                 | -------------
-`==`          | returns is `true` if both strings are equal   | `.books{.title == "clean code"}`
-`^==`         | case sensitive. Returns `true` if the left operand starts with the right operand  | `.books{.title ^== "Javascript"}`
-`^=`          | case insensitive. Returns `true` if the left operand starts with the right operand  | `.books{.title ^= "javascript"}`
-`$==`         | case sensitive. Returns `true` if left operand ends with the right operand  | `.books{.title $== "Javascript"}`
-`$=`          | case insensitive. Returns `true` if left operand ends with the right operand    | `.books{.title $= "javascript"}`
-`*==`          | case sensitive. Returns `true` if left operand contains right operand  | `.books{.title *== "Javascript"}`
-`*=`           | case insensitive. Returns `true` if left operand contains right operand    | `.books{.title *= "javascript"}`
+`==`          | returns `true` if both strings are equal   | `.books{.title == "clean code"}`
+`^==`         | case sensitive; returns `true` if the left operand starts with the right operand  | `.books{.title ^== "Javascript"}`
+`^=`          | case insensitive; returns `true` if the left operand starts with the right operand  | `.books{.title ^= "javascript"}`
+`$==`         | case sensitive; returns `true` if left operand ends with the right operand  | `.books{.title $== "Javascript"}`
+`$=`          | case insensitive; returns `true` if left operand ends with the right operand    | `.books{.title $= "javascript"}`
+`*==`          | case sensitive; returns `true` if left operand contains right operand  | `.books{.title *== "Javascript"}`
+`*=`           | case insensitive; returns `true` if left operand contains right operand    | `.books{.title *= "javascript"}`
 
 ####Logical operators####
 
@@ -284,12 +284,12 @@ JSPath supports four types of positional predicates – also known as slicing me
 
 operator      |  description                                  | example                 
 ------------- | -------------                                 | -------------
-`[position]`  | returns item in context on index `position` (first item is at index `0`)    | `[3]` returns fourth item in context
+`[index]`  | returns item in context at index `index` – the first item has index `0`, positional predicates are zero-based    | `[3]` returns fourth item in context
 `[start:]`    | returns range of items whose index in context is greater or equal to `start`   |  `[2:]` returns items whose index is greater or equal to `2`
 `[:end]`    | returns range of items whose index in context is smaller than `end`    | `[:5]` returns first five items in context
-`[strat:end]`         | returns range of items whose index in context is greater or equal to `strat` and smaller than `end` | `[2:5]` returns three items on the indices `2`, `3` and `4`
+`[start:end]`         | returns range of items whose index in context is greater or equal to `start` and smaller than `end` | `[2:5]` returns three items on the indices `2`, `3` and `4`
 
-The `postion`, `start` or `end` index may be a negative number, which means it counts from the end of the array instead of the beginning:
+`index`, `start` or `end` may be a negative number, which means JSPath counts from the end instead of the beginning:  
 
 example      |  description 
 ------------- | ------------- 
@@ -351,5 +351,5 @@ JSPath.apply(path, doc, { author : ['Robert C. Martin', 'Douglas Crockford'] });
 ```
 
 ###Result###
-If the last predicate in an expression is a positional predicate with an index (e.g. `[0]`, `[5]`, `[-1]`), the result is the item at the specified index or `undefined` if the index is out of range.
-In any other cases the result of applying JSPath is always an array – empty (`[]`), if found nothing. 
+If the last predicate in an expression is a positional predicate using an index (e.g. `[0]`, `[5]`, `[-1]`), the result is the item at the specified index or `undefined` if the index is out of range.
+In any other cases the result of applying `JSPath.apply()` is always an array – empty (`[]`), if found nothing. 
