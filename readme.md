@@ -1,9 +1,9 @@
 JSPath [![NPM version](https://badge.fury.io/js/jspath.png)](http://badge.fury.io/js/jspath) [![Build Status](https://secure.travis-ci.org/dfilatov/jspath.png)](http://travis-ci.org/dfilatov/jspath)
 ============
 
-JSPath is a domain-specific language (DSL) that enables you to navigate and find data within your JSON documents. Using JSPath, you can select items of JSON in order to retrieve the data they contain.
+JSPath is a [domain-specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) that enables you to navigate and find data within your JSON documents. Using JSPath, you can select items of JSON in order to retrieve the data they contain.
 
-JSPath for JSON is like an XPath for XML.
+JSPath for JSON is like [XPath](https://en.wikipedia.org/wiki/XPath) for XML.
 
 It's heavily optimized both for Node.js and modern browsers.
 
@@ -46,32 +46,15 @@ JSPath has been tested in IE6+, Mozilla Firefox 3+, Chrome 5+, Safari 5+, Opera 
 Usage
 -----
 ```javascript
-JSPath.apply(path, json);
-// or
-JSPath.apply(path, json, substs);
+JSPath.apply(path, json[, substs]);
 ```
 where:
-<table>
-  <tr>
-    <th></th>
-    <th>type</th>
-    <th>description</th>
-  <tr>
-    <td>path</td>
-    <td>String</td>
-    <td>path expression</td>
-  </tr>
-  <tr>
-    <td>json</td>
-    <td>any valid JSON</td>
-    <td>input JSON document</td>
-  </tr>
-  <tr>
-    <td>substs</td>
-    <td>Object</td>
-    <td>substitutions (optional)</td>
-  </tr>
-</table>
+
+parameter     |   data type        | description
+------------- |   -------------    | -------------
+`path`        | string             | [path expression](#documentation)
+`json`        | any valid JSON     | input JSON document
+`substs`      | object             | [substitutions (*optional*)](#substitutions)
 
 ###Quick example###
 ```javascript
@@ -95,31 +78,59 @@ Result will be:
 
 Documentation
 -------------
-JSPath expression consists of two type of top-level expressions: location path (required) and predicates (optional).
+A JSPath path expression consists of two types of top-level expressions:
+ 
+ 1. the required [location path](#location-path) and
+ 2. one or more optional [predicates](#predicates)
+
+This means, a path expression like
+
+```javascript
+.automobiles{.maker === "Honda" && .year > 2009}.model
+```
+
+can be split into
+
+the location path |  one predicate                           | and the continued location path 
+-------------     | -------------                            |  ------------- 
+`.automobiles`    |  `{.maker === "Honda" && .year > 2009}`  | `.model`
 
 ###Location path###
-To select items in JSPath, you use a location path.
-The location path consists of one or more location steps.
-Every location step starts with dot (.) or two dots (..) depending on the item you're trying to select:
-  * .property &mdash; locates property immediately descended from context items
-  * ..property &mdash; locates property deeply descended from context items
-  * . &mdash; locates context items itself
+To select items in JSPath, you use a location path which consists of one or more location steps.
 
-You can use the wildcard symbol (*) instead of exact name of property:
-  * .* &mdash; locates all properties immediately descended from the context items
-  * ..* &mdash; locates all properties deeply descended from the context items
+Every location step starts with one period (`.`) or two periods (`..`), depending on the item you're trying to select:
+
+location step |  description                        
+------------- | -------------
+`.property`   | locates property immediately descended from context items
+`..property`  | locates property deeply descended from context items
+`.`           | locates context items itself
+
+You can use the wildcard symbol (`*`) instead of exact name of property:
+
+location step |  description                        
+------------- | -------------
+`.*`          | locates all properties immediately descended from the context items
+`..*`         | locates all properties deeply descended from the context items
  
-If you need to locate property containing non-alphanumerical characters, you can use quoted notation:
-  * ."property with non-alphanumerical characters"
+If you need to locate properties containing non-alphanumerical characters, you have to quote them:
+
+location step                                      |  description
+-------------                                      | -------------
+`."property with non-alphanumerical characters"`   | locates a property ontaining non-alphanumerical characters
 
 Also JSPath allows to join several properties:
-  * (.property1 | .property2 | .propertyN) &mdash; locates property1, property2, propertyN immediately descended from context items
-  * or even (.property1 | .property2.property2_1.property2_1_1) &mdash; locates .property1, .property2.property2_1.property2_1_1 items
 
-Your location path can be absolute or relative.
-If location path starts with the root (^) you are using an absolute location path &mdash; your location path begins from the root items.
+location step                                          |  description
+-------------                                          | -------------
+`(.property1 | .property2 | .propertyN)`               | locates `property1`, `property2`, `propertyN` immediately descended from context items
+`(.property1 | .property2.property2_1.property2_1_1)`  | locates `.property1`, `.property2.property2_1.property2_1_1` immediately descended from context items
+
+Location paths can be absolute or relative.
+If location path starts with the caret (`^`) you are using an absolute location path. This syntax is used to locate a property when another context is already used in the location path and/or the object predicates.
 
 Consider the following JSON:
+
 ```javascript
 var doc = {
     "books" : [
@@ -167,71 +178,37 @@ JSPath.apply('.books..name', doc);
 ```
 
 ###Predicates###
-JSPath predicates allow you to write very specific rules about items you'd like to select when constructing your expressions.
-Predicates are filters that restrict the items selected by location path. There're two possible types of predicates: object and positional.
+JSPath predicates allow you to write very specific rules about items you'd like to select when constructing your path expression. Predicates are filters that restrict the items selected by the location path. There're two possible types of predicates: [object](#object-predicates) and [positional predicates](#positional-predicates).
 
 ###Object predicates###
-Object predicates can be used in a path expression to filter a subset of items according to boolean expressions working on a properties of each item.
-Object predicates are embedded in braces.
+Object predicates can be used in a path expression to filter a subset of items according to boolean expressions working on a properties of each item. All object predicates are parenthesized by curly brackets (`{` and `}`).
 
-Basic expressions in object predicates:
-  * numeric literals (e.g. 1.23)
-  * string literals (e.g. "John Gold")
-  * boolean literals (true/false)
-  * subpathes (e.g. .nestedProp.deeplyNestedProp)
+In JSPath these basic expressions can be used inside an object predicate:
+  * numeric literals (e.g. `1.23`)
+  * string literals (e.g. `"John Gold"`)
+  * boolean literals (`true` and `false`)
+  * subpathes (e.g. `.nestedProp.deeplyNestedProp`)
 
-JSPath allows to use in predicate expressions following types of operators:
-  * comparison operators
-  * string comparison operators
-  * logical operators
-  * arithmetic operators
+Furthermore, the following types of operators are valide inside an object predicate:
+  * [comparison operators](#comparison-operators)
+  * [string comparison operators](#string-comparison-operators)
+  * [logical operators](#logical-operators)
+  * [arithmetic operators](#arithmetic-operators)
 
 ####Comparison operators####
 
-<table>
-  <tr>
-    <td>==</td>
-    <td>Returns is true if both operands are equal</td>
-    <td>.books{.id == "1"}</td>
-  </tr>
-  <tr>
-    <td>===</td>
-    <td>Returns true if both operands are strictly equal with no type conversion</td>
-    <td>.books{.id === 1}</td>
-  </tr>
-  <tr>
-    <td>!=</td>
-    <td>Returns true if the operands are not equal</td>
-    <td>.books{.id != "1"}</td>
-  </tr>
-  <tr>
-    <td>!==</td>
-    <td>Returns true if the operands are not equal and/or not of the same type</td>
-    <td>.books{.id !== 1}</td>
-  </tr>
-  <tr>
-    <td>></td>
-    <td>Returns true if the left operand is greater than the right operand</td>
-    <td>.books{.id > 1}</td>
-  </tr>
-  <tr>
-    <td>>=</td>
-    <td>Returns true if the left operand is greater than or equal to the right operand</td>
-    <td>.books{.id >= 1}</td>
-  </tr>
-  <tr>
-    <td>&lt;</td>
-    <td>Returns true if the left operand is less than the right operand</td>
-    <td>.books{.id &lt; 1}</td>
-  </tr>
-  <tr>
-    <td>&lt;=</td>
-    <td>Returns true if the left operand is less than or equal to the right operand</td>
-    <td>.books{.id &lt;= 1}</td>
-  </tr>
-</table>
+operator      |  description                                  | example                 
+------------- | -------------                                 | -------------
+`==`          | returns `true` if both operands are equal     | `.books{.id == "1"}`
+`===`         | returns `true` if both operands are strictly equal with no type conversion   | `.books{.id === 1}`
+`!=`          | returns `true` if the operands are not equal    | `.books{.id != "1"}`
+`!==`         | returns `true` if the operands are not equal and_or not of the same data type  | `.books{.id !== 1}`
+`>`           | returns `true` if the left operand is greater than the right operand    | `.books{.id > 1}`
+`>=`          | returns `true` if the left operand is greater than or equal to the right operand  | `.books{.id >= 1}`
+`<`           | returns `true` if the left operand is smaller than the right operand    | `.books{.id < 1}`
+`<=`          | returns `true` if the left operand is smaller than or equal to the right operand  | `.books{.id <= 1}`
 
-Comparison rules:
+JSPath uses the following rules to compare arrays and objects of different types:
   * if both operands to be compared are arrays, then the comparison will be
 true if there is an element in the first array and an element in the
 second array such that the result of performing the comparison of two elements is true
@@ -239,130 +216,55 @@ second array such that the result of performing the comparison of two elements i
 array such that the result of performing the comparison of element and another operand is true
   * primitives to be compared as usual javascript primitives
 
-If both operands are strings, there're also available additional comparison operators:
 ####String comparison operators####
-<table>
-  <tr>
-    <td>==</td>
-    <td>Like an usual '==' but case insensitive</td>
-    <td>.books{.title == "clean code"}</td>
-  </tr>
-  <tr>
-    <td>^==</td>
-    <td>Returns true if left operand value beginning with right operand value</td>
-    <td>.books{.title ^== "Javascript"}</td>
-  </tr>
-  <tr>
-    <td>^=</td>
-    <td>Like the '^==' but case insensitive</td>
-    <td>.books{.title ^= "javascript"}</td>
-  </tr>
-  <tr>
-    <td>$==</td>
-    <td>Returns true if left operand value ending with right operand value</td>
-    <td>.books{.title $== "Javascript"}</td>
-  </tr>
-  <tr>
-    <td>$=</td>
-    <td>Like the '$==' but case insensitive</td>
-    <td>.books{.title $= "javascript"}</td>
-  </tr>
-  <tr>
-    <td>*==</td>
-    <td>Returns true if left operand value contains right operand value</td>
-    <td>.books{.title *== "Javascript"}</td>
-  </tr>
-  <tr>
-    <td>*=</td>
-    <td>Like the '*==' but case insensitive</td>
-    <td>.books{.title *= "javascript"}</td>
-  </tr>
-</table>
+If both operands are strings, there're also available additional comparison operators:
+
+operator      |  description                                  | example                 
+------------- | -------------                                 | -------------
+`==`          | returns `true` if both strings are equal   | `.books{.title == "clean code"}`
+`^==`         | case sensitive; returns `true` if the left operand starts with the right operand  | `.books{.title ^== "Javascript"}`
+`^=`          | case insensitive; returns `true` if the left operand starts with the right operand  | `.books{.title ^= "javascript"}`
+`$==`         | case sensitive; returns `true` if left operand ends with the right operand  | `.books{.title $== "Javascript"}`
+`$=`          | case insensitive; returns `true` if left operand ends with the right operand    | `.books{.title $= "javascript"}`
+`*==`          | case sensitive; returns `true` if left operand contains right operand  | `.books{.title *== "Javascript"}`
+`*=`           | case insensitive; returns `true` if left operand contains right operand    | `.books{.title *= "javascript"}`
 
 ####Logical operators####
 
-<table>
-  <tr>
-    <td>&&</td>
-    <td>Returns true if both operands are true</td>
-    <td>.books{.price > 19 && .author.name === "Robert C. Martin"}</td>
-  </tr>
-  <tr>
-    <td>||</td>
-    <td>Returns true if either operand is true</td>
-    <td>.books{.title === "Maintainable JavaScript" || .title === "Clean Code"}</td>
-  </tr>
-  <tr>
-    <td>!</td>
-    <td>Returns true if operand is false</td>
-    <td>.books{!.title}</td>
-  </tr>
-</table>
+operator      |  description                                  | example                 
+------------- | -------------                                 | -------------
+`&&`          | returns `true` if both operands are `true`   | `.books{.price > 19 && .author.name === "Robert C. Martin"}`
+`||`          | returns `true` if either or both operands are `true`  	  | `.books{.title === "Maintainable JavaScript" || .title === "Clean Code"}`
+`!`          | returns `true` if operand is false 	 | `.books{!.title}`
 
-Logical operators convert their operands to boolean values using next rules:
-  * if operand is an array (as you remember result of applying subpath is also array):
-    * if length of array greater than zero, result will be true
-    * else result will be false
-  * Casting with double NOT (!!) javascript operator to be used in any other cases.
+In JSPath logical operators convert their operands to boolean values using following rules:
+
+  * if an operand is an array with a length greater than `0`, the result will be `true` else `false`
+  * a casting with double NOT javascript operator (`!!`) is used in any other cases
 
 ####Arithmetic operators####
 
-<table>
-  <tr>
-    <td>+</td>
-    <td>addition</td>
-  </tr>
-  <tr>
-    <td>-</td>
-    <td>subtraction</td>
-  </tr>
-  <tr>
-    <td>*</td>
-    <td>multiplication</td>
-  </tr>
-  <tr>
-    <td>/</td>
-    <td>division</td>
-  </tr>
-  <tr>
-    <td>%</td>
-    <td>modulus</td>
-  </tr>
-</table>
+operator      |  description              
+------------- | ------------- 
+`+`          | addition        
+`-`          | subtraction  	  
+`*`          | multiplication 	
+`/`          | division  
+`%`          | modulus  
 
 ####Operator precedence####
-<table>
-  <tr>
-    <td>1 (top)</td>
-    <td>! -<sup>unary</sup></td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>* / %</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>+ -<sup>binary</sup></td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>< <= > >=</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>== === != !== ^= ^== $== $= *= *==</td>
-  </tr>
-  <tr>
-    <td>6</td>
-    <td>&&</td>
-  </tr>
-  <tr>
-    <td>7</td>
-    <td>||</td>
-  </tr>
-</table>
 
-Parentheses are used to explicitly denote precedence by grouping parts of an expression that should be evaluated first.
+precedence    |  operator              
+------------- | ------------- 
+1 (highest)   | `!`, unary `-`       
+2             | `*`, `/`, `%`  	  
+3             | `+`, binary `-`  	
+4             | `<`, `<=`, `>`, `>=`  
+5             | `==`, `===`, `!=`, `!==`, `^=`, `^==`, `$==`, `$=`, `*=`, `*==`  
+6             | `&&`
+7 (lowest )   | `||`
+
+Parentheses (`(` and `)`) are used to explicitly denote precedence by grouping parts of an expression that should be evaluated first.
 
 ####Examples####
 ```javascript
@@ -376,18 +278,24 @@ JSPath.apply('.books{.price < 17}.title', doc);
 ```
 
 ###Positional predicates###
-Positional predicates allow you to filter items by their context position.
-Positional predicates are always embedded in square brackets.
+Positional predicates allow you to filter items by their context position. All positional predicates are parenthesized by square brackets (`[` and `]`).
 
-There are four available forms:
-  * [ ````index````] &mdash; returns ````index````-positioned item in context (first item is at index 0), e.g. [3] returns fourth item in context
-  * [````index````:] &mdash; returns items whose index in context is greater or equal to ````index````, e.g. [2:] returns items whose index in context is greater or equal to 2
-  * [:````index````] &mdash; returns items whose index in context is smaller than ````index````, e.g. [:5] returns first five items in context
-  * [````indexFrom````:````indexTo````] &mdash; returns items whose index in context is greater or equal to ````indexFrom```` and smaller than ````indexTo````, e.g. [2:5] returns three items with indices 2, 3 and 4
+JSPath supports four types of positional predicates – also known as slicing methods:
 
-Also you can use negative position numbers:
-  * [-1] &mdash; returns last item in context
-  * [-3:] &mdash; returns last three items in context
+operator      |  description                                  | example                 
+------------- | -------------                                 | -------------
+`[index]`  | returns item in context at index `index` – the first item has index `0`, positional predicates are zero-based    | `[3]` returns fourth item in context
+`[start:]`    | returns range of items whose index in context is greater or equal to `start`   |  `[2:]` returns items whose index is greater or equal to `2`
+`[:end]`    | returns range of items whose index in context is smaller than `end`    | `[:5]` returns first five items in context
+`[start:end]`         | returns range of items whose index in context is greater or equal to `start` and smaller than `end` | `[2:5]` returns three items on the indices `2`, `3` and `4`
+
+`index`, `start` or `end` may be a negative number, which means JSPath counts from the end instead of the beginning:  
+
+example      |  description 
+------------- | ------------- 
+`[-1]`     | returns last item in context
+`[-3:]`    | returns last three items in context
+
 
 ####Examples####
 ```javascript
@@ -417,7 +325,7 @@ JSPath.apply('.books[1:3].title', doc);
 ```
 
 ###Multiple predicates###
-You can use more than one predicate. The result will contain only items that match all the predicates.
+You can use more than one predicate – any combination of [object](#object-predicates) and [positional predicates](#positional-predicates). The result will contain only items that match all predicates.
 
 ####Examples####
 ```javascript
@@ -443,5 +351,5 @@ JSPath.apply(path, doc, { author : ['Robert C. Martin', 'Douglas Crockford'] });
 ```
 
 ###Result###
-Result of applying JSPath is always an array (empty, if found nothing), excluding the case when the last predicate in top-level expression is a positional predicate with the exact index (e.g. [0], [5], [-1]).
-In this case, result is an item at the specified index (````undefined```` if item hasn't found).
+If the last predicate in an expression is a positional predicate using an index (e.g. `[0]`, `[5]`, `[-1]`), the result is the item at the specified index or `undefined` if the index is out of range.
+In any other cases the result of applying `JSPath.apply()` is always an array – empty (`[]`), if found nothing. 
