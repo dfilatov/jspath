@@ -178,18 +178,18 @@ JSPath.apply('.books..name', doc);
 ```
 
 ###Predicates###
-JSPath predicates allow you to write very specific rules about items you'd like to select when constructing your path expression. Predicates are filters that restrict the items selected by the location path. There're two possible types of predicates: [object](#object-predicates) and [positional predicates](#positional-predicates).
+JSPath predicates allow you to write very specific rules about items you'd like to select when constructing your path expression. Predicates are filters that restrict the items selected by the location path. There are two possible types of predicates: [object](#object-predicates) and [positional predicates](#positional-predicates).
 
 ###Object predicates###
-Object predicates can be used in a path expression to filter a subset of items according to boolean expressions working on a properties of each item. All object predicates are parenthesized by curly brackets (`{` and `}`).
+Object predicates can be used in a path expression to filter a subset of items according to boolean expressions working on the properties of each item. All object predicates are parenthesized by curly brackets (`{` and `}`).
 
 In JSPath these basic expressions can be used inside an object predicate:
   * numeric literals (e.g. `1.23`)
   * string literals (e.g. `"John Gold"`)
   * boolean literals (`true` and `false`)
-  * subpathes (e.g. `.nestedProp.deeplyNestedProp`)
+  * subpaths (e.g. `.nestedProp.deeplyNestedProp`)
 
-Furthermore, the following types of operators are valide inside an object predicate:
+Furthermore, the following types of operators are valid inside an object predicate:
   * [comparison operators](#comparison-operators)
   * [string comparison operators](#string-comparison-operators)
   * [logical operators](#logical-operators)
