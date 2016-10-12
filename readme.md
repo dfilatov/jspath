@@ -188,6 +188,7 @@ In JSPath these basic expressions can be used inside an object predicate:
   * string literals (e.g. `"John Gold"`)
   * boolean literals (`true` and `false`)
   * subpaths (e.g. `.nestedProp.deeplyNestedProp`)
+  * nested predicates (e.g. `.prop{.nestedProp{.deeplyNestedProp{.stillMore || .yetAnother} || .otherDeeplyNested}}`
 
 Furthermore, the following types of operators are valid inside an object predicate:
   * [comparison operators](#comparison-operators)
@@ -332,6 +333,20 @@ You can use more than one predicate – any combination of [object](#object-pred
 // find first book name whose price less than 15 and greater than 5
 JSPath.apply('.books{.price < 15}{.price > 5}[0].title', doc);
 /* ['Maintainable JavaScript'] */
+```
+
+###Nested predicates###
+You can nest predicates as deeply as you like - saves having to repeat deep subpaths each time, shortening query length. Similar to JavaScript's "with" operator, all properties of the object become first-level properties inside the nested predicate.
+
+####Examples####
+```javascript
+// long subpaths: find books by various authors, for under $20
+JSPath.apply('.books{.price<20 && (.author.name*=="Zakas" || .author.name*=="Martin")}.title', doc);
+/* ['Clean Code', 'Maintainable JavaScript'] */
+
+// nested predicates: same query, however ".author.name" isn't repeated. For JSON with many levels, allows much more compact queries.
+JSPath.apply('.books{.price<20 && .author{.name*=="Zakas" || .name*=="Martin"}}.title', doc);
+/* ['Clean Code', 'Maintainable JavaScript'] */
 ```
 
 ###Substitutions###
