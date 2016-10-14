@@ -336,16 +336,16 @@ JSPath.apply('.books{.price < 15}{.price > 5}[0].title', doc);
 ```
 
 ###Nested predicates###
-You can nest predicates as deeply as you like - saves having to repeat deep subpaths each time, shortening query length. Similar to JavaScript's "with" operator, all properties of the object become first-level properties inside the nested predicate.
+You can nest predicates as deeply as you like — saves having to repeat deep subpaths each time, shortening query length. Similar to JavaScript's "with" operator, all properties of the object become first-level properties inside the nested predicate.
 
 ####Examples####
 ```javascript
 // long subpaths: find books by various authors, for under $20
-JSPath.apply('.books{.price<20 && (.author.name*=="Zakas" || .author.name*=="Martin")}.title', doc);
+JSPath.apply('.books{.price < 20 && (.author.name *== "Zakas" || .author.name *== "Martin")}.title', doc);
 /* ['Clean Code', 'Maintainable JavaScript'] */
 
-// nested predicates: same query, however ".author.name" isn't repeated. For JSON with many levels, allows much more compact queries.
-JSPath.apply('.books{.price<20 && .author{.name*=="Zakas" || .name*=="Martin"}}.title', doc);
+// nested predicates: same query, however ".author.name" isn't repeated. For JSON with many levels, enables much more compact queries.
+JSPath.apply('.books{.price < 20 && .author{.name *== "Zakas" || .name *== "Martin"}}.title', doc);
 /* ['Clean Code', 'Maintainable JavaScript'] */
 ```
 
