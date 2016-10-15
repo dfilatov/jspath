@@ -17,6 +17,8 @@ module.exports = [
     { path : '.books{.name *== "Javascript"}.idx', res : []},
     { path : '.books{.name *== "JavaScript"}.idx', res : [1, 3, 4]},
     { path : '.{.a *= "test"}', data : { a : null }, res : []},
+    { path : '.books{.name ~= "clean code|maintainable javaScript"}.idx', res : [0, 1]},
+    { path : '.books{.name ~== "Maintainable JavaScript;Clean Code"}.idx', res : [0, 1]},
     { path : '.booksCount{. > 4}', res : [5]},
     { path : '.booksCount{. > 10}', res : []},
     { path : '.booksCount{. >= 5}', res : [5]},

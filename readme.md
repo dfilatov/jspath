@@ -229,6 +229,8 @@ operator      |  description                                  | example
 `$=`          | case insensitive; returns `true` if left operand ends with the right operand    | `.books{.title $= "javascript"}`
 `*==`          | case sensitive; returns `true` if left operand contains right operand  | `.books{.title *== "Javascript"}`
 `*=`           | case insensitive; returns `true` if left operand contains right operand    | `.books{.title *= "javascript"}`
+`~==`          | case sensitive; returns `true` if right operand contains left operand  | `.books{.title ~== "Clean Code,Maintainable JavaScript"}`
+`~=`           | case insensitive; returns `true` if right operand contains left operand    | `.books{.title ~= "maintainable javaScript;clean code"}`
 
 ####Logical operators####
 
@@ -261,7 +263,7 @@ precedence    |  operator
 2             | `*`, `/`, `%`  	  
 3             | `+`, binary `-`  	
 4             | `<`, `<=`, `>`, `>=`  
-5             | `==`, `===`, `!=`, `!==`, `^=`, `^==`, `$==`, `$=`, `*=`, `*==`  
+5             | `==`, `===`, `!=`, `!==`, `^=`, `^==`, `$==`, `$=`, `*=`, `*==`, `~=`, `~==`
 6             | `&&`
 7 (lowest )   | `||`
 
