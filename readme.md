@@ -1,4 +1,4 @@
-JSPath [![NPM version](https://badge.fury.io/js/jspath.png)](http://badge.fury.io/js/jspath) [![Build Status](https://secure.travis-ci.org/dfilatov/jspath.png)](http://travis-ci.org/dfilatov/jspath)
+JSPath [![NPM Version](https://img.shields.io/npm/v/jspath.svg?style=flat-square)](https://www.npmjs.com/package/jspath) [![Build Status](https://img.shields.io/travis/dfilatov/jspath/master.svg?style=flat-square)](https://travis-ci.org/dfilatov/jspath/branches)
 ============
 
 JSPath is a [domain-specific language (DSL)](https://en.wikipedia.org/wiki/Domain-specific_language) that enables you to navigate and find data within your JSON documents. Using JSPath, you can select items of JSON in order to retrieve the data they contain.
