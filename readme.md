@@ -30,12 +30,15 @@ Table of Contents
 
 Getting Started
 ---------------
-###In the Node.js###
+
+### In the Node.js
+
 You can install using Node Package Manager (npm):
 
     npm install jspath
 
-###In the Browsers###
+### In the Browsers
+
 ```html
 <script type="text/javascript" src="jspath.min.js"></script>
 ```
@@ -56,7 +59,8 @@ parameter     |   data type        | description
 `json`        | any valid JSON     | input JSON document
 `substs`      | object             | [substitutions (*optional*)](#substitutions)
 
-###Quick example###
+### Quick example
+
 ```javascript
 JSPath.apply(
     '.automobiles{.maker === "Honda" && .year > 2009}.model',
@@ -79,7 +83,7 @@ Result will be:
 Documentation
 -------------
 A JSPath path expression consists of two types of top-level expressions:
- 
+
  1. the required [location path](#location-path) and
  2. one or more optional [predicates](#predicates)
 
@@ -91,16 +95,17 @@ This means, a path expression like
 
 can be split into
 
-the location path |  one predicate                           | and the continued location path 
--------------     | -------------                            |  ------------- 
+the location path |  one predicate                           | and the continued location path
+-------------     | -------------                            |  -------------
 `.automobiles`    |  `{.maker === "Honda" && .year > 2009}`  | `.model`
 
-###Location path###
+### Location path
+
 To select items in JSPath, you use a location path which consists of one or more location steps.
 
 Every location step starts with one period (`.`) or two periods (`..`), depending on the item you're trying to select:
 
-location step |  description                        
+location step |  description
 ------------- | -------------
 `.property`   | locates property immediately descended from context items
 `..property`  | locates property deeply descended from context items
@@ -108,11 +113,11 @@ location step |  description
 
 You can use the wildcard symbol (`*`) instead of exact name of property:
 
-location step |  description                        
+location step |  description
 ------------- | -------------
 `.*`          | locates all properties immediately descended from the context items
 `..*`         | locates all properties deeply descended from the context items
- 
+
 If you need to locate properties containing non-alphanumerical characters, you have to quote them:
 
 location step                                      |  description
@@ -162,7 +167,8 @@ var doc = {
 };
 ```
 
-####Examples####
+#### Examples
+
 ```javascript
 // find all books authors
 JSPath.apply('.books.author', doc);
@@ -177,10 +183,12 @@ JSPath.apply('.books..name', doc);
 /* ['Robert C. Martin', 'Nicholas C. Zakas', 'Robert C. Martin', 'Douglas Crockford' ] */
 ```
 
-###Predicates###
+### Predicates
+
 JSPath predicates allow you to write very specific rules about items you'd like to select when constructing your path expression. Predicates are filters that restrict the items selected by the location path. There are two possible types of predicates: [object](#object-predicates) and [positional predicates](#positional-predicates).
 
-###Object predicates###
+### Object predicates
+
 Object predicates can be used in a path expression to filter a subset of items according to boolean expressions working on the properties of each item. All object predicates are parenthesized by curly brackets (`{` and `}`).
 
 In JSPath these basic expressions can be used inside an object predicate:
@@ -196,9 +204,9 @@ Furthermore, the following types of operators are valid inside an object predica
   * [logical operators](#logical-operators)
   * [arithmetic operators](#arithmetic-operators)
 
-####Comparison operators####
+#### Comparison operators
 
-operator      |  description                                  | example                 
+operator      |  description                                  | example
 ------------- | -------------                                 | -------------
 `==`          | returns `true` if both operands are equal     | `.books{.id == "1"}`
 `===`         | returns `true` if both operands are strictly equal with no type conversion   | `.books{.id === 1}`
@@ -217,10 +225,11 @@ second array such that the result of performing the comparison of two elements i
 array such that the result of performing the comparison of element and another operand is true
   * primitives to be compared as usual javascript primitives
 
-####String comparison operators####
+#### String comparison operators
+
 If both operands are strings, there're also available additional comparison operators:
 
-operator      |  description                                  | example                 
+operator      |  description                                  | example
 ------------- | -------------                                 | -------------
 `==`          | returns `true` if both strings are equal   | `.books{.title == "clean code"}`
 `^==`         | case sensitive; returns `true` if the left operand starts with the right operand  | `.books{.title ^== "Javascript"}`
@@ -230,9 +239,9 @@ operator      |  description                                  | example
 `*==`          | case sensitive; returns `true` if left operand contains right operand  | `.books{.title *== "Javascript"}`
 `*=`           | case insensitive; returns `true` if left operand contains right operand    | `.books{.title *= "javascript"}`
 
-####Logical operators####
+#### Logical operators
 
-operator      |  description                                  | example                 
+operator      |  description                                  | example
 ------------- | -------------                                 | -------------
 `&&`          | returns `true` if both operands are `true`   | `.books{.price > 19 && .author.name === "Robert C. Martin"}`
 `||`          | returns `true` if either or both operands are `true`  	  | `.books{.title === "Maintainable JavaScript" || .title === "Clean Code"}`
@@ -243,31 +252,32 @@ In JSPath logical operators convert their operands to boolean values using follo
   * if an operand is an array with a length greater than `0`, the result will be `true` else `false`
   * a casting with double NOT javascript operator (`!!`) is used in any other cases
 
-####Arithmetic operators####
+#### Arithmetic operators
 
-operator      |  description              
-------------- | ------------- 
-`+`          | addition        
-`-`          | subtraction  	  
-`*`          | multiplication 	
-`/`          | division  
-`%`          | modulus  
+operator      |  description
+------------- | -------------
+`+`          | addition
+`-`          | subtraction
+`*`          | multiplication
+`/`          | division
+`%`          | modulus
 
-####Operator precedence####
+#### Operator precedence#
 
-precedence    |  operator              
-------------- | ------------- 
-1 (highest)   | `!`, unary `-`       
-2             | `*`, `/`, `%`  	  
-3             | `+`, binary `-`  	
-4             | `<`, `<=`, `>`, `>=`  
-5             | `==`, `===`, `!=`, `!==`, `^=`, `^==`, `$==`, `$=`, `*=`, `*==`  
+precedence    |  operator
+------------- | -------------
+1 (highest)   | `!`, unary `-`
+2             | `*`, `/`, `%`
+3             | `+`, binary `-`
+4             | `<`, `<=`, `>`, `>=`
+5             | `==`, `===`, `!=`, `!==`, `^=`, `^==`, `$==`, `$=`, `*=`, `*==`
 6             | `&&`
 7 (lowest )   | `||`
 
 Parentheses (`(` and `)`) are used to explicitly denote precedence by grouping parts of an expression that should be evaluated first.
 
-####Examples####
+#### Examples
+
 ```javascript
 // find all book titles whose author is Robert C. Martin
 JSPath.apply('.books{.author.name === "Robert C. Martin"}.title', doc);
@@ -278,27 +288,29 @@ JSPath.apply('.books{.price < 17}.title', doc);
 /* ['Maintainable JavaScript', 'JavaScript: The Good Parts'] */
 ```
 
-###Positional predicates###
+### Positional predicates
+
 Positional predicates allow you to filter items by their context position. All positional predicates are parenthesized by square brackets (`[` and `]`).
 
 JSPath supports four types of positional predicates – also known as slicing methods:
 
-operator      |  description                                  | example                 
+operator      |  description                                  | example
 ------------- | -------------                                 | -------------
 `[index]`  | returns item in context at index `index` – the first item has index `0`, positional predicates are zero-based    | `[3]` returns fourth item in context
 `[start:]`    | returns range of items whose index in context is greater or equal to `start`   |  `[2:]` returns items whose index is greater or equal to `2`
 `[:end]`    | returns range of items whose index in context is smaller than `end`    | `[:5]` returns first five items in context
 `[start:end]`         | returns range of items whose index in context is greater or equal to `start` and smaller than `end` | `[2:5]` returns three items on the indices `2`, `3` and `4`
 
-`index`, `start` or `end` may be a negative number, which means JSPath counts from the end instead of the beginning:  
+`index`, `start` or `end` may be a negative number, which means JSPath counts from the end instead of the beginning:
 
-example      |  description 
-------------- | ------------- 
+example      |  description
+------------- | -------------
 `[-1]`     | returns last item in context
 `[-3:]`    | returns last three items in context
 
 
-####Examples####
+#### Examples
+
 ```javascript
 // find first book title
 JSPath.apply('.books[0].title', doc);
@@ -325,20 +337,24 @@ JSPath.apply('.books[1:3].title', doc);
 /* ['Maintainable JavaScript', 'Agile Software Development'] */
 ```
 
-###Multiple predicates###
+### Multiple predicates
+
 You can use more than one predicate – any combination of [object](#object-predicates) and [positional predicates](#positional-predicates). The result will contain only items that match all predicates.
 
-####Examples####
+#### Examples
+
 ```javascript
 // find first book name whose price less than 15 and greater than 5
 JSPath.apply('.books{.price < 15}{.price > 5}[0].title', doc);
 /* ['Maintainable JavaScript'] */
 ```
 
-###Nested predicates###
+### Nested predicates
+
 You can nest predicates as deeply as you like — saves having to repeat deep subpaths each time, shortening query length. Similar to JavaScript's "with" operator, all properties of the object become first-level properties inside the nested predicate.
 
-####Examples####
+#### Examples
+
 ```javascript
 // long subpaths: find books by various authors, for under $20
 JSPath.apply('.books{.price < 20 && (.author.name *== "Zakas" || .author.name *== "Martin")}.title', doc);
@@ -349,10 +365,12 @@ JSPath.apply('.books{.price < 20 && .author{.name *== "Zakas" || .name *== "Mart
 /* ['Clean Code', 'Maintainable JavaScript'] */
 ```
 
-###Substitutions###
+### Substitutions
+
 Substitutions allow you to use runtime-evaluated values in predicates and pathes (as a path root).
 
-####Examples####
+#### Examples
+
 ```javascript
 var path = '.books{.author.name === $author}.title';
 
@@ -365,6 +383,7 @@ JSPath.apply(path, doc, { author : ['Robert C. Martin', 'Douglas Crockford'] });
 /* ['Clean Code', 'Agile Software Development', 'JavaScript: The Good Parts'] */
 ```
 
-###Result###
+### Result
+
 If the last predicate in an expression is a positional predicate using an index (e.g. `[0]`, `[5]`, `[-1]`), the result is the item at the specified index or `undefined` if the index is out of range.
-In any other cases the result of applying `JSPath.apply()` is always an array – empty (`[]`), if found nothing. 
+In any other cases the result of applying `JSPath.apply()` is always an array – empty (`[]`), if found nothing.
