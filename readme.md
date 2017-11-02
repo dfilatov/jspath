@@ -118,11 +118,12 @@ location step |  description
 `.*`          | locates all properties immediately descended from the context items
 `..*`         | locates all properties deeply descended from the context items
 
-If you need to locate properties containing non-alphanumerical characters, you have to quote them:
+Property must be a sequence of alphanumerical characters including `_`, `$` and `@` symbols, that cannot start with a number.
+If you need to locate properties containing any other characters, you have to quote them:
 
 location step                                      |  description
 -------------                                      | -------------
-`."property with non-alphanumerical characters"`   | locates a property ontaining non-alphanumerical characters
+`."property with non-alphanumerical characters"`   | locates a property containing non-alphanumerical characters
 
 Also JSPath allows to join several properties:
 
