@@ -196,6 +196,7 @@ In JSPath these basic expressions can be used inside an object predicate:
   * numeric literals (e.g. `1.23`)
   * string literals (e.g. `"John Gold"`)
   * boolean literals (`true` and `false`)
+  * null literal (`null`)
   * subpaths (e.g. `.nestedProp.deeplyNestedProp`)
   * nested predicates (e.g. `.prop{.nestedProp{.deeplyNestedProp{.stillMore || .yetAnother} || .otherDeeplyNested}}`
 
@@ -235,10 +236,16 @@ operator      |  description                                  | example
 `==`          | returns `true` if both strings are equal   | `.books{.title == "clean code"}`
 `^==`         | case sensitive; returns `true` if the left operand starts with the right operand  | `.books{.title ^== "Javascript"}`
 `^=`          | case insensitive; returns `true` if the left operand starts with the right operand  | `.books{.title ^= "javascript"}`
-`$==`         | case sensitive; returns `true` if left operand ends with the right operand  | `.books{.title $== "Javascript"}`
-`$=`          | case insensitive; returns `true` if left operand ends with the right operand    | `.books{.title $= "javascript"}`
-`*==`          | case sensitive; returns `true` if left operand contains right operand  | `.books{.title *== "Javascript"}`
-`*=`           | case insensitive; returns `true` if left operand contains right operand    | `.books{.title *= "javascript"}`
+`==^`         | case sensitive; returns `true` if the right operand starts with the left operand  | `.books{.title ==^ "Javascript"}`
+`=^`          | case insensitive; returns `true` if the right operand starts with the left operand  | `.books{.title =^ "javascript"}`
+`$==`         | case sensitive; returns `true` if the left operand ends with the right operand  | `.books{.title $== "Javascript"}`
+`$=`          | case insensitive; returns `true` if the left operand ends with the right operand    | `.books{.title $= "javascript"}`
+`==$`         | case sensitive; returns `true` if the right operand ends with the left operand  | `.books{.title ==$ "Javascript"}`
+`=$`          | case insensitive; returns `true` if the right operand ends with the left operand    | `.books{.title =$ "javascript"}`
+`*==`          | case sensitive; returns `true` if the left operand contains right operand  | `.books{.title *== "Javascript"}`
+`*=`           | case insensitive; returns `true` if the left operand contains right operand    | `.books{.title *= "javascript"}`
+`==*`          | case sensitive; returns `true` if the right operand contains left operand  | `.books{.title ==* "Javascript"}`
+`=*`           | case insensitive; returns `true` if the right operand contains left operand    | `.books{.title =* "javascript"}`
 
 #### Logical operators
 
