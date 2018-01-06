@@ -1,6 +1,6 @@
 {
     "name": "jspath",
-    "version": "0.3.4",
+    "version": "0.4.0",
     "homepage": "https://github.com/dfilatov/jspath",
     "description": "DSL that enables you to navigate and find data within your JSON documents",
     "keywords": [
