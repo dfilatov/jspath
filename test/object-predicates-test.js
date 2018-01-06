@@ -3,6 +3,8 @@ module.exports = [
     { path : '.{.data}', data : { data : 0 }, res : [{ data : 0 }]},
     { path : '.{.data}', data : { data : false }, res : [{ data : false }]},
     { path : '.{.data}', data : [{ data : false }], res : [{ data : false }]},
+    { path : '.', data : null, res : [null] },
+    { path : '.data', data : [{ data : 1 }, { data : null }, { data : 3 }], res : [1, null, 3] },
     { path : '.info{.description}', res : [{ description : 'books about javascript', content : 'content' }]},
     { path : '.info{.noexists}', res : []},
     { path : '.books{.favorite}.idx', res : [1, 2]},
