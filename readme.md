@@ -249,21 +249,21 @@ operator      |  description                                  | example
 
 #### Logical operators
 
-operator      |  description                                  | example
-------------- | -------------                                 | -------------
-`&&`          | returns `true` if both operands are `true`   | `.books{.price > 19 && .author.name === "Robert C. Martin"}`
-`||`          | returns `true` if either or both operands are `true`  	  | `.books{.title === "Maintainable JavaScript" || .title === "Clean Code"}`
-`!`          | returns `true` if operand is false 	 | `.books{!.title}`
+operator      |  description                                         | example
+------------- | ---------------------------------------------------- | -------------
+`&&`          | returns `true` if both operands are `true`           | `.books{.price > 19 && .author.name === "Robert C. Martin"}`
+`\|\|`          | returns `true` if either or both operands are `true` | `.books{.title === "Maintainable JavaScript" \|\| .title === "Clean Code"}`
+`!`           | returns `true` if operand is false 	                 | `.books{!.title}`
 
 In JSPath logical operators convert their operands to boolean values using following rules:
 
-  * if an operand is an array with a length greater than `0`, the result will be `true` else `false`
+  * if an operand is an array with a length greater than `0` the result will be `true` else `false`
   * a casting with double NOT javascript operator (`!!`) is used in any other cases
 
 #### Arithmetic operators
 
-operator      |  description
-------------- | -------------
+operator     |  description
+------------ | -------------
 `+`          | addition
 `-`          | subtraction
 `*`          | multiplication
@@ -272,15 +272,15 @@ operator      |  description
 
 #### Operator precedence
 
-precedence    |  operator
-------------- | -------------
-1 (highest)   | `!`, unary `-`
-2             | `*`, `/`, `%`
-3             | `+`, binary `-`
-4             | `<`, `<=`, `>`, `>=`
-5             | `==`, `===`, `!=`, `!==`, `^=`, `^==`, `$==`, `$=`, `*=`, `*==`, `=^`, `==^`, `=$`, `==$`, `=*`, `==*`
-6             | `&&`
-7 (lowest )   | `||`
+precedence   |  operator
+------------ | -------------
+1 (highest)  | `!`, unary `-`
+2            | `*`, `/`, `%`
+3            | `+`, binary `-`
+4            | `<`, `<=`, `>`, `>=`
+5            | `==`, `===`, `!=`, `!==`, `^=`, `^==`, `$==`, `$=`, `*=`, `*==`, `=^`, `==^`, `=$`, `==$`, `=*`, `==*`
+6            | `&&`
+7 (lowest)   | `\|\|`
 
 Parentheses (`(` and `)`) are used to explicitly denote precedence by grouping parts of an expression that should be evaluated first.
 
@@ -311,10 +311,10 @@ operator      |  description                                  | example
 
 `index`, `start` or `end` may be a negative number, which means JSPath counts from the end instead of the beginning:
 
-example      |  description
-------------- | -------------
-`[-1]`     | returns last item in context
-`[-3:]`    | returns last three items in context
+example  | description
+-------- | -------------
+`[-1]`   | returns last item in context
+`[-3:]`  | returns last three items in context
 
 
 #### Examples
