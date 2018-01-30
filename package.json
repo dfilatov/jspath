@@ -29,10 +29,10 @@
     },
     "dependencies": {},
     "devDependencies": {
-        "nodeunit": "0.9.1",
-        "istanbul": "",
-        "cliff": "",
-        "benchmark": "",
+        "nodeunit": "0.11.2",
+        "istanbul": "0.4.5",
+        "cliff": "0.1.10",
+        "benchmark": "2.1.4",
         "uglify-js": "3.3.4"
     },
     "main": "index",
