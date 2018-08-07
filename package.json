@@ -23,6 +23,7 @@
             "email": "mdevils@gmail.com"
         }
     ],
+    "license": "MIT",    
     "repository": {
         "type": "git",
         "url": "http://github.com/dfilatov/jspath.git"
