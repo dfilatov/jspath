@@ -23,25 +23,27 @@
             "email": "mdevils@gmail.com"
         }
     ],
-    "license": "MIT",    
+    "license": "MIT",
     "repository": {
         "type": "git",
         "url": "http://github.com/dfilatov/jspath.git"
     },
     "dependencies": {},
     "devDependencies": {
-        "nodeunit": "0.11.2",
-        "istanbul": "0.4.5",
-        "cliff": "0.1.10",
         "benchmark": "2.1.4",
+        "cliff": "0.1.10",
+        "istanbul": "0.4.5",
+        "nodeunit": "0.11.2",
+        "typescript": "3.4.5",
         "uglify-js": "3.3.4"
     },
     "main": "index",
+    "types": "index.d.ts",
     "engines": {
         "node": ">= 0.4.0"
     },
     "scripts": {
-        "test": "./node_modules/istanbul/lib/cli.js test test.js"
+        "test": "./node_modules/istanbul/lib/cli.js test test.js && make test-ts"
     },
     "enb": {
         "sources": [
